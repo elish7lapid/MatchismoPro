@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// (or un-successfully) matching cards.
 - (int)match:(NSArray *)otherCards;
 
-/// The string written on the card.
-@property (strong, nonatomic) NSString *contents;
+/// The string written on the card. If no string should be presented on the card, it is \c nil.
+@property (nullable, strong, nonatomic) NSString *contents;
 
 /// If \c YES then the card is currently chosen by the user, else it is not chosen.
 @property (nonatomic) BOOL isChosen;
