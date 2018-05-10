@@ -11,28 +11,29 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation Card
 
-- (NSString *)description
-{
+- (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p, suitAndRankcontents: %@, isChosen: %d, "
-          "isMatched: %d>, lastMatchedCards: %@>", [self class], self, self.contents,
+          "isMatched: %d>, lastMatchedCards: %@>", [self class], self, self.stringContents,
           self.isChosen, self.isMatched, self.lastMatchedCards];
 }
 
-- (int)matchToSingleOtherCard:(Card *)otherCard{
-  if (![otherCard.contents isEqualToString:self.contents]){
+- (NSInteger)matchToSingleOtherCard:(Card *)otherCard {
+  if (![otherCard.stringContents isEqualToString:self.stringContents]){
     return 0;
   }
   [self.lastMatchedCards addObject:otherCard];
   return 1;
 }
 
-- (int)match:(NSArray *)otherCards{
+- (int)match:(NSArray<Card *> *)otherCards {
   int score = 0;
-  for (Card *card in otherCards) {
+  self.lastMatchedCards = [NSMutableArray array];
+  for (Card *card in otherCards){
+    
     if (card == self) {
       continue;
     }
-    score = [self matchToSingleOtherCard:card];
+    score += [self matchToSingleOtherCard: card];
   }
   
   if (score > 0) {

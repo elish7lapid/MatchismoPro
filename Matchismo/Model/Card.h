@@ -10,10 +10,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Check if \c self matches cards in \c otherCards and return a score given for succesfully
 /// (or un-successfully) matching cards.
-- (int)match:(NSArray *)otherCards;
+- (int)match:(NSArray<Card *> *)otherCards;
+
+/// Check if \c self matches \c otherCard and return a score given for succesfully
+/// (or un-successfully) matching two cards.
+- (NSInteger)matchToSingleOtherCard:(Card *)otherCard;
 
 /// The string written on the card. If no string should be presented on the card, it is \c nil.
-@property (nullable, strong, nonatomic) NSString *contents;
+@property (nullable, strong, nonatomic) NSString *stringContents;
 
 /// If \c YES then the card is currently chosen by the user, else it is not chosen.
 @property (nonatomic) BOOL isChosen;

@@ -36,7 +36,6 @@ static const auto kCostToChoose = 1;
     _cards = [[NSMutableArray alloc] init];
     for (int i = 0; i < count; i++) {
       Card *gameCard = [deck drawRandomCard];
-      
       if (!gameCard) {
         self = nil;
         break;
@@ -47,40 +46,73 @@ static const auto kCostToChoose = 1;
   return self;
 }
 
--(void)updateLastChosenCards{
+- (Card *)cardAtIndex:(NSUInteger)index{
+  return (index < [self.cards count]) ? self.cards[index]: nil;
+}
+
+- (void)updateBeginningOfMove {
+  self.lastMatchedCards = [NSMutableArray array];
+  self.lastTurnScore = 0;
+  self.turnEnded = FALSE;
+}
+
+- (void)chooseCardAtIndex:(NSUInteger)index {
+  if (self.turnEnded) {
+    [self updateBeginningOfMove];
+  }
+  
+  Card *chosenCard = [self cardAtIndex:index];
+  [self chooseCard:chosenCard];
+  
+  if (chosenCard.isChosen && !chosenCard.isMatched) {
+    [self matchChosenCard: chosenCard];
+  }
+}
+
+- (void)chooseCard:(Card *)card {
+  if (card.isMatched) {
+    return;
+  }
+  self.currentGameScore -= kCostToChoose;
+  card.isChosen = !card.isChosen;
+}
+
+- (void)matchChosenCard:(Card *)chosenCard {
+  [self updateCurrentChosenCards];
+  [self updateLastMatchingMoveWithChosenCard:chosenCard];
+  
+  if ([self.currentChosenCards count] < self.numCardsToMatch) {
+    return;
+  }
+  [self updateEndOfMove];
+}
+
+- (void)updateCurrentChosenCards {
   self.currentChosenCards = [[NSMutableArray alloc] init];
   for (Card *card in self.cards) {
-    
     if ((card.isChosen) && (!card.isMatched)) {
       [self.currentChosenCards addObject:card];
     }
   }
 }
 
--(void)updateLastMatchingMoveWithChosenCard:(Card *)chosenCard{
-  int match = [chosenCard match:self.currentChosenCards];
-  auto *matchedCards = chosenCard.lastMatchedCards;
-  
-  if ([matchedCards count] > [self.lastMatchedCards count]) {
-    self.lastMatchedCards = matchedCards;
+- (void)updateLastMatchingMoveWithChosenCard:(Card *)chosenCard {
+  int match = [self matchAllCurrentChosen];
+  if (match > 0) {
+    self.lastMatchedCards = chosenCard.lastMatchedCards;
     self.lastTurnScore = match;
   }
 }
 
--(void)handleSuccessfullMatch{
-  self.lastTurnScore *= kMatchBonus;
-  self.currentGameScore += self.lastTurnScore;
+- (int)matchAllCurrentChosen {
+  int match = 0;
   for (Card *card in self.currentChosenCards) {
-    card.isMatched = YES;
+    match = [card match:self.currentChosenCards];
+    if ([card.lastMatchedCards count] != self.numCardsToMatch) {
+      return 0;
+    }
   }
-}
-
--(void)handleMatchFail{
-  self.lastTurnScore = -kMismatchPenalty;
-  self.currentGameScore -= kMismatchPenalty;
-  for (Card *card in self.currentChosenCards) {
-    card.isChosen = NO;
-  }
+  return match;
 }
 
 - (void)updateEndOfMove {
@@ -93,44 +125,20 @@ static const auto kCostToChoose = 1;
   }
 }
 
-- (void)matchChosenCard:(Card *)chosenCard {
-  [self updateLastChosenCards];
-  [self updateLastMatchingMoveWithChosenCard:chosenCard];
-  
-  if ([self.currentChosenCards count] < self.numCardsToMatch) {
-    return;
-  }
-  [self updateEndOfMove];
-}
-
-- (void)updateBeginningOfMove {
-  self.lastMatchedCards = [NSMutableArray array];
-  self.lastTurnScore = 0;
-  self.turnEnded = FALSE;
-}
-
--(void)chooseCard:(Card *)card{
-  
-  if (card.isMatched) return;
-  self.currentGameScore -= kCostToChoose;
-  card.isChosen = !card.isChosen;
-}
-
-- (void)chooseCardAtIndex:(NSUInteger)index {
-  Card *chosenCard = [self cardAtIndex:index];
-  
-  if (self.turnEnded) {
-    [self updateBeginningOfMove];
-  }
-  [self chooseCard:chosenCard];
-  
-  if (chosenCard.isChosen && !chosenCard.isMatched) {
-    [self matchChosenCard: chosenCard];
+- (void)handleSuccessfullMatch {
+  self.lastTurnScore *= kMatchBonus;
+  self.currentGameScore += self.lastTurnScore;
+  for (Card *card in self.currentChosenCards) {
+    card.isMatched = YES;
   }
 }
 
-- (Card *)cardAtIndex:(NSUInteger)index{
-  return (index < [self.cards count]) ? self.cards[index]: nil;
+- (void)handleMatchFail {
+  self.lastTurnScore = -kMismatchPenalty;
+  self.currentGameScore -= kMismatchPenalty;
+  for (Card *card in self.currentChosenCards) {
+    card.isChosen = NO;
+  }
 }
 
 @end
