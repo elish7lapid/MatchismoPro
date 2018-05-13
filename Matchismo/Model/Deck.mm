@@ -8,19 +8,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Deck()
+// The cards assembling the deck.
 @property (strong, nonatomic) NSMutableArray *cards;
 @end
 
 @implementation Deck
 
-- (NSMutableArray *)cards{
-  
+- (NSMutableArray *)cards {
   if(!_cards) _cards = [[NSMutableArray alloc] init];
   return _cards;
 }
 
-- (void)addCard:(Card *)card atTop:(BOOL)atTop{
-  
+- (void)addCard:(Card *)card atTop:(BOOL)atTop {
   if (atTop) {
     [self.cards insertObject:card atIndex:0];
   }else{
@@ -31,8 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
   [self addCard:card atTop:NO];
 }
 
-- (nullable Card *)drawRandomCard{
-  
+- (nullable Card *)drawRandomCard {
   if (![self.cards count]) {
     return nil;
   }

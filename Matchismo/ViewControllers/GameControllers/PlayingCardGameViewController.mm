@@ -3,13 +3,14 @@
 
 #import "PlayingCardGameViewController.h"
 
+#import "Card.h"
 #import "CardMatchingGame.h"
 #import "PlayingCardDeck.h"
-#import "Card.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayingCardGameViewController()
+// The card buttons displayed in the view.
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @end
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize game = _game;
 
+// Number of cards that are matched in one turn of the matching game.
 static const NSUInteger kNumCardsToMatch = 2;
 
 - (void)viewDidLoad {
@@ -40,7 +42,7 @@ static const NSUInteger kNumCardsToMatch = 2;
   [super viewWillAppear:animated];
 }
 
-- (UIImage *)backgroundImageForCard:(Card *)card {
+- (nullable UIImage *)backgroundImageForCard:(Card *)card {
   return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
 }
 
@@ -50,6 +52,16 @@ static const NSUInteger kNumCardsToMatch = 2;
 
 - (NSString *)titleForCard:(Card *)card {
   return card.isChosen ? card.stringContents : @"";
+}
+
+- (nullable NSMutableAttributedString *)createStringFromCardsArray:
+           (NSMutableArray<Card *> *)cardsArray {
+  auto concatenatedArrayString = @"";
+  for (Card *cardFromArray in cardsArray) {
+    concatenatedArrayString = [NSString stringWithFormat:@"%@%@%@", concatenatedArrayString,
+                               cardFromArray.stringContents, @", "];
+  }
+  return [[NSMutableAttributedString alloc] initWithString:concatenatedArrayString];
 }
 
 @end

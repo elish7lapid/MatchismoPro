@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Card()
+//The cards chosen by the user, that were found matching in the previous turn.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
 @end
 
@@ -32,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
   _suit = suit;
 }
 
-- (NSString *)suit{
+- (NSString *)suit {
   return _suit ? _suit: @"?";
 }
 

@@ -6,6 +6,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Card()
+//The cards chosen by the user, that were found matching in the previous turn.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
 @end
 
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (int)match:(NSArray<Card *> *)otherCards {
-  int score = 0;
+  auto score = 0;
   self.lastMatchedCards = [NSMutableArray array];
   for (Card *card in otherCards){
     

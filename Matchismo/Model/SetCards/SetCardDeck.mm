@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)addCardsWithColor:(UIColor *)color andAlpha:(NSNumber *)alpha {
-  for (NSString *shapeType in [SetCard validShapes]) {
+  for (NSString *shapeType in [SetCard validSymbols]) {
     [self addCardWithColor:color alpha:alpha andShape:shapeType];
   }
 }
@@ -38,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addCardWithColor:(UIColor *)color alpha:(NSNumber *)alpha shape:(NSString *)shape
             andNumShapes:(NSUInteger)numShapes {
-  auto *card = [[SetCard alloc] initWithShapeSymbol:shape numShapes:numShapes color:color andAlpha:alpha];
+  auto card = [[SetCard alloc] initWithShapeSymbol:shape numSymbols:numShapes color:color
+                                           andAlpha:alpha];
   [self addCard:card];
 }
 

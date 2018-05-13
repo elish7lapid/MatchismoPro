@@ -9,18 +9,34 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CardMatchingGame()
+
+/// The current (total) game score.
 @property (readwrite, nonatomic) NSInteger currentGameScore;
+
+/// The score of (only) the last turn.
 @property (readwrite, nonatomic) NSInteger lastTurnScore;
+
+/// The card being used in the current game.
 @property (strong, nonatomic) NSMutableArray<Card *> *cards;
+
+/// The list of cards that are currently chosen by the user.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *currentChosenCards;
+
+/// The list of cards that were matched successfully by the user in the last choice.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
+
 @end
 
 @implementation CardMatchingGame
 
-static const auto kMismatchPenalty = 2;
-static const auto kMatchBonus = 4;
+// Penalty score a user payes to choose a card.
 static const auto kCostToChoose = 1;
+
+// A bonus score a user gets for successfully matching cards.
+static const auto kMatchBonus = 4;
+
+// Penalty score a user payes for an un-successful match of cards.
+static const auto kMismatchPenalty = 2;
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"<%@: %p, currentGameScore: %ld, lastTurnScore: %ld,"
@@ -35,7 +51,7 @@ static const auto kCostToChoose = 1;
     _numCardsToMatch = 2;
     _cards = [[NSMutableArray alloc] init];
     for (int i = 0; i < count; i++) {
-      Card *gameCard = [deck drawRandomCard];
+      auto gameCard = [deck drawRandomCard];
       if (!gameCard) {
         self = nil;
         break;
@@ -46,7 +62,7 @@ static const auto kCostToChoose = 1;
   return self;
 }
 
-- (Card *)cardAtIndex:(NSUInteger)index{
+- (Card *)cardAtIndex:(NSUInteger)index {
   return (index < [self.cards count]) ? self.cards[index]: nil;
 }
 
@@ -61,7 +77,7 @@ static const auto kCostToChoose = 1;
     [self updateBeginningOfMove];
   }
   
-  Card *chosenCard = [self cardAtIndex:index];
+  auto chosenCard = [self cardAtIndex:index];
   [self chooseCard:chosenCard];
   
   if (chosenCard.isChosen && !chosenCard.isMatched) {
@@ -105,7 +121,7 @@ static const auto kCostToChoose = 1;
 }
 
 - (int)matchAllCurrentChosen {
-  int match = 0;
+  auto match = 0;
   for (Card *card in self.currentChosenCards) {
     match = [card match:self.currentChosenCards];
     if ([card.lastMatchedCards count] != self.numCardsToMatch) {

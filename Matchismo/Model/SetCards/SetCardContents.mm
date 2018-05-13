@@ -13,25 +13,25 @@ NS_ASSUME_NONNULL_BEGIN
   return 4;
 }
 
-- (instancetype)initWithShapeSymbol:(NSString *)symbol numShapes:(NSInteger)numShapes
+- (instancetype)initWithShapeSymbol:(NSString *)symbol numSymbols:(NSInteger)numShapes
                               color:(UIColor *)color
                            andAlpha:(NSNumber *)alpha {
   
   if (self = [super init]) {
-    _numShapes = numShapes;
-    _shapeSymbol = symbol;
+    _numSymbols = numShapes;
+    _symbol = symbol;
     _color = color;
     _alpha = alpha;
   }
   return self;
 }
 
-- (BOOL)isMatchingNumShapes:(SetCardContents *)otherContent {
-  return self.numShapes == otherContent.numShapes;
+- (BOOL)isMatchingNumSymbols:(SetCardContents *)otherContent {
+  return self.numSymbols == otherContent.numSymbols;
 }
 
-- (BOOL)isMatchingShapeSymbol:(SetCardContents *)otherContent {
-  return [self.shapeSymbol isEqualToString:otherContent.shapeSymbol];
+- (BOOL)isMatchingSymbol:(SetCardContents *)otherContent {
+  return [self.symbol isEqualToString:otherContent.symbol];
 }
 
 - (BOOL)isMatchingColor:(SetCardContents *)otherContent {
