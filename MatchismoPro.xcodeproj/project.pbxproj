@@ -20,7 +20,10 @@
 		7165C351209F35C50084107B /* SetCardDeck.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7165C34F209F35C50084107B /* SetCardDeck.mm */; };
 		7165C354209F39E20084107B /* SetCard.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7165C352209F39E20084107B /* SetCard.mm */; };
 		716A88A220A178740013D0B0 /* SetCardContents.mm in Sources */ = {isa = PBXBuildFile; fileRef = 716A88A020A178740013D0B0 /* SetCardContents.mm */; };
-		7192715F20AC56CA008B88A4 /* Cardview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192715D20AC56CA008B88A4 /* Cardview.mm */; };
+		7192715F20AC56CA008B88A4 /* CardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192715D20AC56CA008B88A4 /* CardView.mm */; };
+		7192716220AC59A4008B88A4 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 7192716020AC59A4008B88A4 /* Grid.m */; };
+		7192716520AC666B008B88A4 /* PlayingCardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192716320AC666B008B88A4 /* PlayingCardView.mm */; };
+		7192716820AC6687008B88A4 /* SetCardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192716620AC6687008B88A4 /* SetCardView.mm */; };
 		71C8B1B320983EB400C6B218 /* CardMatchingGame.mm in Sources */ = {isa = PBXBuildFile; fileRef = 71C8B1B220983EB400C6B218 /* CardMatchingGame.mm */; };
 		71C8B1B620983F3700C6B218 /* PlayingCardDeck.mm in Sources */ = {isa = PBXBuildFile; fileRef = 71C8B1B520983F3700C6B218 /* PlayingCardDeck.mm */; };
 		71C8B1B920983F7F00C6B218 /* Deck.mm in Sources */ = {isa = PBXBuildFile; fileRef = 71C8B1B820983F7F00C6B218 /* Deck.mm */; };
@@ -72,8 +75,14 @@
 		7165C353209F39E20084107B /* SetCard.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = SetCard.h; sourceTree = "<group>"; };
 		716A88A020A178740013D0B0 /* SetCardContents.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SetCardContents.mm; sourceTree = "<group>"; };
 		716A88A120A178740013D0B0 /* SetCardContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetCardContents.h; sourceTree = "<group>"; };
-		7192715D20AC56CA008B88A4 /* Cardview.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Cardview.mm; sourceTree = "<group>"; };
-		7192715E20AC56CA008B88A4 /* Cardview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cardview.h; sourceTree = "<group>"; };
+		7192715D20AC56CA008B88A4 /* CardView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CardView.mm; sourceTree = "<group>"; };
+		7192715E20AC56CA008B88A4 /* CardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardView.h; sourceTree = "<group>"; };
+		7192716020AC59A4008B88A4 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
+		7192716120AC59A4008B88A4 /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
+		7192716320AC666B008B88A4 /* PlayingCardView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayingCardView.mm; sourceTree = "<group>"; };
+		7192716420AC666B008B88A4 /* PlayingCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
+		7192716620AC6687008B88A4 /* SetCardView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SetCardView.mm; sourceTree = "<group>"; };
+		7192716720AC6687008B88A4 /* SetCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetCardView.h; sourceTree = "<group>"; };
 		71C8B1B120983EB400C6B218 /* CardMatchingGame.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = CardMatchingGame.h; sourceTree = "<group>"; };
 		71C8B1B220983EB400C6B218 /* CardMatchingGame.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CardMatchingGame.mm; sourceTree = "<group>"; };
 		71C8B1B420983F3700C6B218 /* PlayingCardDeck.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = PlayingCardDeck.h; sourceTree = "<group>"; };
@@ -114,8 +123,12 @@
 		710B3B5720A483B300157E10 /* CardViews */ = {
 			isa = PBXGroup;
 			children = (
-				7192715D20AC56CA008B88A4 /* Cardview.mm */,
-				7192715E20AC56CA008B88A4 /* Cardview.h */,
+				7192715D20AC56CA008B88A4 /* CardView.mm */,
+				7192715E20AC56CA008B88A4 /* CardView.h */,
+				7192716320AC666B008B88A4 /* PlayingCardView.mm */,
+				7192716420AC666B008B88A4 /* PlayingCardView.h */,
+				7192716620AC6687008B88A4 /* SetCardView.mm */,
+				7192716720AC6687008B88A4 /* SetCardView.h */,
 			);
 			path = CardViews;
 			sourceTree = "<group>";
@@ -144,6 +157,8 @@
 		714E062D20983BF500E0E515 /* Matchismo */ = {
 			isa = PBXGroup;
 			children = (
+				7192716120AC59A4008B88A4 /* Grid.h */,
+				7192716020AC59A4008B88A4 /* Grid.m */,
 				7165C348209F323A0084107B /* ViewControllers */,
 				71C8B1B020983EA100C6B218 /* Model */,
 				714E063420983BF500E0E515 /* Main.storyboard */,
@@ -369,13 +384,16 @@
 				71C8B1B620983F3700C6B218 /* PlayingCardDeck.mm in Sources */,
 				716A88A220A178740013D0B0 /* SetCardContents.mm in Sources */,
 				7165C34E209F35770084107B /* SetCardGameViewController.mm in Sources */,
+				7192716520AC666B008B88A4 /* PlayingCardView.mm in Sources */,
 				71C8B1B320983EB400C6B218 /* CardMatchingGame.mm in Sources */,
 				7165C351209F35C50084107B /* SetCardDeck.mm in Sources */,
 				71C8B1BC20983FBD00C6B218 /* PlayingCard.mm in Sources */,
 				7165C34B209F32970084107B /* PlayingCardGameViewController.mm in Sources */,
 				71C8B1BF2098400100C6B218 /* Card.mm in Sources */,
-				7192715F20AC56CA008B88A4 /* Cardview.mm in Sources */,
+				7192716820AC6687008B88A4 /* SetCardView.mm in Sources */,
+				7192715F20AC56CA008B88A4 /* CardView.mm in Sources */,
 				714E063320983BF500E0E515 /* CardGameViewController.mm in Sources */,
+				7192716220AC59A4008B88A4 /* Grid.m in Sources */,
 				7165C354209F39E20084107B /* SetCard.mm in Sources */,
 				714E063E20983BF600E0E515 /* main.m in Sources */,
 				71C8B1B920983F7F00C6B218 /* Deck.mm in Sources */,

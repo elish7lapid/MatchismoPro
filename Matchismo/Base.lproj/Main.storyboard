@@ -367,7 +367,7 @@
                                     <action selector="touchRestartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fyv-zq-JD5"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BNL-fS-p2R">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BNL-fS-p2R" customClass="PlayingCardView">
                                 <rect key="frame" x="135" y="504" width="47" height="73"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -380,6 +380,7 @@
                         <barButtonItem key="rightBarButtonItem" title="History" id="5bS-dr-qFo"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="blob" destination="BNL-fS-p2R" id="O5E-2P-hL1"/>
                         <outlet property="scoreLabel" destination="MpY-ez-era" id="6jd-0i-xps"/>
                         <outletCollection property="cardButtons" destination="Xzl-Tc-lg8" id="vcd-9S-9bQ"/>
                         <outletCollection property="cardButtons" destination="gme-hn-027" id="cvM-7r-TOL"/>
@@ -563,7 +564,7 @@
                                     <action selector="touchCardButton:" destination="ZTR-Wx-T3B" eventType="touchUpInside" id="Ond-pd-EEN"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rp4-JV-skF">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rp4-JV-skF" customClass="SetCardView">
                                 <rect key="frame" x="139" y="509" width="66" height="101"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

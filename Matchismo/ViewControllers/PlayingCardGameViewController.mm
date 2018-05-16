@@ -6,11 +6,13 @@
 #import "Card.h"
 #import "CardMatchingGame.h"
 #import "PlayingCardDeck.h"
+#import "PlayingCardView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayingCardGameViewController()
 // The card buttons displayed in the view.
+@property (weak, nonatomic) IBOutlet PlayingCardView *blob;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @end
 
@@ -25,6 +27,9 @@ static const NSUInteger kNumCardsToMatch = 2;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  _blob.rank = 13;
+  _blob.suit = @"♥︎";
+  _blob.faceUp= YES;
   [self startNewGame];
 }
 
