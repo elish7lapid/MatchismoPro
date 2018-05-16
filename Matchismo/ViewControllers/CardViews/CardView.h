@@ -8,11 +8,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface CardView : UIView
 
-- (void)drawCornerShapes;
-
-@property (nonatomic) NSUInteger rank;
-@property (strong, nonatomic) NSString *suit;
-@property (nonatomic) BOOL faceUp;
+- (void)drawContents;
+- (CGFloat)cornerScaleFactor;
+- (CGFloat)cornerOffset;
 
 @end
 
