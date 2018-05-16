@@ -367,26 +367,19 @@
                                     <action selector="touchRestartButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fyv-zq-JD5"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZU3-up-MXL">
-                                <rect key="frame" x="16" y="515" width="343" height="21"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BNL-fS-p2R">
+                                <rect key="frame" x="135" y="504" width="47" height="73"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="0.91301904965753422" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Matching Playing Cards" id="OEO-dq-fcy">
-                        <barButtonItem key="rightBarButtonItem" title="History" id="5bS-dr-qFo">
-                            <connections>
-                                <segue destination="X8m-Na-xH3" kind="show" identifier="Matching History" id="0O0-Z6-qNB"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="History" id="5bS-dr-qFo"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="gameSituationLabel" destination="ZU3-up-MXL" id="nkM-0u-KsT"/>
                         <outlet property="scoreLabel" destination="MpY-ez-era" id="6jd-0i-xps"/>
                         <outletCollection property="cardButtons" destination="Xzl-Tc-lg8" id="vcd-9S-9bQ"/>
                         <outletCollection property="cardButtons" destination="gme-hn-027" id="cvM-7r-TOL"/>
@@ -424,33 +417,6 @@
             </objects>
             <point key="canvasLocation" x="232.80000000000001" y="-331.48425787106447"/>
         </scene>
-        <!--History Card Game View Controller-->
-        <scene sceneID="pWC-ev-rxW">
-            <objects>
-                <viewController id="X8m-Na-xH3" customClass="HistoryCardGameViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ZXi-5i-yaC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="No history to show.." translatesAutoresizingMaskIntoConstraints="NO" id="GwP-pQ-Ake">
-                                <rect key="frame" x="16" y="64" width="343" height="542"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="ues-LT-aja"/>
-                    </view>
-                    <connections>
-                        <outlet property="historyTextView" destination="GwP-pQ-Ake" id="gOa-OJ-KYP"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="c2j-eb-y72" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1018" y="38"/>
-        </scene>
         <!--Set Game-->
         <scene sceneID="Dgh-YO-YKy">
             <objects>
@@ -472,13 +438,6 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXu-wH-0zP">
                                 <rect key="frame" x="16" y="597" width="234" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="toG-gq-GN9">
-                                <rect key="frame" x="16" y="528" width="343" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -604,19 +563,19 @@
                                     <action selector="touchCardButton:" destination="ZTR-Wx-T3B" eventType="touchUpInside" id="Ond-pd-EEN"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rp4-JV-skF">
+                                <rect key="frame" x="139" y="509" width="66" height="101"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.83234566450000003" blue="0.47320586440000001" alpha="0.57989083904109584" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="JY3-dU-NVm"/>
                     </view>
                     <navigationItem key="navigationItem" title="Set Game" id="S6s-6E-kvq">
-                        <barButtonItem key="rightBarButtonItem" title="History" id="rsO-RM-Lbc">
-                            <connections>
-                                <segue destination="X8m-Na-xH3" kind="show" identifier="Set History" id="wW2-Kg-D7a"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="History" id="rsO-RM-Lbc"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="gameSituationLabel" destination="toG-gq-GN9" id="VmP-pg-r33"/>
                         <outlet property="scoreLabel" destination="iXu-wH-0zP" id="c5y-pT-Df0"/>
                         <outletCollection property="cardButtons" destination="mFm-AQ-YHS" id="0uM-pl-Qbc"/>
                         <outletCollection property="cardButtons" destination="4Mz-4c-OXp" id="njk-ng-4q8"/>
@@ -700,7 +659,4 @@
         <image name="cardback" width="64" height="96"/>
         <image name="cardfront" width="64" height="96"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="wW2-Kg-D7a"/>
-    </inferredMetricsTieBreakers>
 </document>

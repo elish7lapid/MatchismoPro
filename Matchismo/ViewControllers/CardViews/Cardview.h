@@ -1,12 +1,12 @@
 // Copyright (c) 2018 Lightricks. All rights reserved.
 // Created by Elisheva Lapid.
 
-#import "Deck.h"
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Object representing a deck of cards from the game "Set".
-@interface SetCardDeck : Deck
+@interface Cardview : UIView
 
 @end
 
