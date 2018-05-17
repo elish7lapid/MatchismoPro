@@ -3,6 +3,8 @@
 
 #import "SetCardView.h"
 
+#import "SquiggleSymbolCreator.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SetCardView()
@@ -13,19 +15,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize symbolScaleFactor = _symbolScaleFactor;
 
-static const auto kBasicSquiggleHeight = 58.7;
-static const auto kBasicSquiggelWidth= 107.8;
 static const auto kDefaultSymbolScaleFactor = 0.70;
-static const NSUInteger kMaxNumSymbols = 3;
+
++ (SymbolCreator *)drawersFactory:(ContentsSymbol)symbol {
+  switch (symbol) {
+    case kTriangle:
+      break;
+    case kSquare:
+      break;
+    case kSquiggle:
+      return [[SquiggleSymbolCreator alloc]init];
+    default:
+      break;
+  }
+  return nil;
+}
 
 - (void)drawContents {
+  auto drawer = [SetCardView drawersFactory:self.symbol];
   CGContextRef context = UIGraphicsGetCurrentContext();
-  auto scale = [self getSquiggleScale];
+  auto scale = [drawer scaleForWidth:[self desiredWidth] andHeight:[self desiredHeight]];
   CGContextScaleCTM(context, scale, scale);
-  CGContextTranslateCTM(context, 0, 0);
-  [self createSquiggleInContext:context];
+  CGContextTranslateCTM(context, [self xCoordForShapeWithWidth:107.8],
+                        [self initialYCoordForShapeWithHeight:[self desiredHeight]]);
+  [drawer createInContext:context];
   CGContextTranslateCTM(context, 10, 10);
-  [self createSquiggleInContext:context];
+  [drawer createInContext:context];
   // draw the squiggle
   CGContextSetLineCap(context, kCGLineCapRound);
   CGContextSetLineWidth(context, 2.0 );
@@ -33,22 +48,20 @@ static const NSUInteger kMaxNumSymbols = 3;
   
 }
 
-- (void)createSquiggleInContext:(CGContextRef)context {
-  CGContextMoveToPoint(context, 104.0, 15.0);
-  CGContextAddCurveToPoint( context, 112.4 , 36.9,   89.7,  60.8,   63.0,  54.0 );
-  CGContextAddCurveToPoint( context,  52.3 , 51.3,   42.2,  42.0,   27.0,  53.0 );
-  CGContextAddCurveToPoint( context,   9.6 , 65.6,    5.4,  58.3,    5.0,  40.0 );
-  CGContextAddCurveToPoint( context,   4.6 , 22.0,   19.1,   9.7,   36.0,  12.0 );
-  CGContextAddCurveToPoint( context,  59.2 , 15.2,   61.9,  31.5,   89.0,  14.0 );
-  CGContextAddCurveToPoint( context,  95.3 , 10.0,  100.9,   6.9,  104.0,  15.0 );
+- (CGFloat)xCoordForShapeWithWidth:(CGFloat)width { // todo doesnt scale right
+  return (self.bounds.size.width / 2) - (width/2);
 }
 
-- (CGFloat)getSquiggleScale {
-  auto desiredWidth = self.bounds.size.width * self.symbolScaleFactor;
-  auto desiredHeight = (self.bounds.size.height / self.numSymbols) * self.symbolScaleFactor;
-  auto xScale = desiredWidth / kBasicSquiggelWidth;
-  auto yScale = desiredHeight / kBasicSquiggleHeight;
-  return fmin(xScale, yScale);
+- (CGFloat)initialYCoordForShapeWithHeight:(CGFloat)height { //todo doesnt scale right
+  return (self.bounds.size.height / 2) - (((height + 1 - self.symbolScaleFactor)*self.numSymbols)/2);
+}
+
+- (CGFloat)desiredWidth {
+  return self.bounds.size.width * self.symbolScaleFactor;
+}
+
+- (CGFloat)desiredHeight {
+  return (self.bounds.size.height / self.numSymbols) * self.symbolScaleFactor;
 }
 
 - (void)setSymbol:(ContentsSymbol)symbol {

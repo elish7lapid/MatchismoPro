@@ -7,13 +7,14 @@
 #import "CardMatchingGame.h"
 #import "SetCard.h"
 #import "SetCardDeck.h"
+#import "SetCardView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SetCardGameViewController()
 // The card buttons displayed in the view.
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-
+@property (weak, nonatomic) IBOutlet SetCardView *blob;
 @end
 
 @implementation SetCardGameViewController
@@ -26,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 static const NSUInteger kNumCardsToMatch = 3;
 
 - (void)viewDidLoad {
+  self.blob.symbol = kSquiggle;
+  self.blob.numSymbols = 1;
   [super viewDidLoad];
   [self startNewGame];
 }

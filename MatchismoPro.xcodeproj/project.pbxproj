@@ -20,6 +20,8 @@
 		7165C351209F35C50084107B /* SetCardDeck.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7165C34F209F35C50084107B /* SetCardDeck.mm */; };
 		7165C354209F39E20084107B /* SetCard.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7165C352209F39E20084107B /* SetCard.mm */; };
 		716A88A220A178740013D0B0 /* SetCardContents.mm in Sources */ = {isa = PBXBuildFile; fileRef = 716A88A020A178740013D0B0 /* SetCardContents.mm */; };
+		717CD6D320ADB072006F3500 /* SymbolCreator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 717CD6D120ADB072006F3500 /* SymbolCreator.mm */; };
+		717CD6D920ADB376006F3500 /* SquiggleSymbolCreator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 717CD6D720ADB376006F3500 /* SquiggleSymbolCreator.mm */; };
 		7192715F20AC56CA008B88A4 /* CardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192715D20AC56CA008B88A4 /* CardView.mm */; };
 		7192716220AC59A4008B88A4 /* Grid.m in Sources */ = {isa = PBXBuildFile; fileRef = 7192716020AC59A4008B88A4 /* Grid.m */; };
 		7192716520AC666B008B88A4 /* PlayingCardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7192716320AC666B008B88A4 /* PlayingCardView.mm */; };
@@ -75,6 +77,10 @@
 		7165C353209F39E20084107B /* SetCard.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = SetCard.h; sourceTree = "<group>"; };
 		716A88A020A178740013D0B0 /* SetCardContents.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SetCardContents.mm; sourceTree = "<group>"; };
 		716A88A120A178740013D0B0 /* SetCardContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetCardContents.h; sourceTree = "<group>"; };
+		717CD6D120ADB072006F3500 /* SymbolCreator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SymbolCreator.mm; sourceTree = "<group>"; };
+		717CD6D220ADB072006F3500 /* SymbolCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SymbolCreator.h; sourceTree = "<group>"; };
+		717CD6D720ADB376006F3500 /* SquiggleSymbolCreator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SquiggleSymbolCreator.mm; sourceTree = "<group>"; };
+		717CD6D820ADB376006F3500 /* SquiggleSymbolCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SquiggleSymbolCreator.h; sourceTree = "<group>"; };
 		7192715D20AC56CA008B88A4 /* CardView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CardView.mm; sourceTree = "<group>"; };
 		7192715E20AC56CA008B88A4 /* CardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardView.h; sourceTree = "<group>"; };
 		7192716020AC59A4008B88A4 /* Grid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Grid.m; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		710B3B5720A483B300157E10 /* CardViews */ = {
 			isa = PBXGroup;
 			children = (
+				717CD6D020ADADEA006F3500 /* HelperTools */,
 				7192715D20AC56CA008B88A4 /* CardView.mm */,
 				7192715E20AC56CA008B88A4 /* CardView.h */,
 				7192716320AC666B008B88A4 /* PlayingCardView.mm */,
@@ -233,6 +240,17 @@
 				716A88A120A178740013D0B0 /* SetCardContents.h */,
 			);
 			path = SetCards;
+			sourceTree = "<group>";
+		};
+		717CD6D020ADADEA006F3500 /* HelperTools */ = {
+			isa = PBXGroup;
+			children = (
+				717CD6D120ADB072006F3500 /* SymbolCreator.mm */,
+				717CD6D220ADB072006F3500 /* SymbolCreator.h */,
+				717CD6D720ADB376006F3500 /* SquiggleSymbolCreator.mm */,
+				717CD6D820ADB376006F3500 /* SquiggleSymbolCreator.h */,
+			);
+			path = HelperTools;
 			sourceTree = "<group>";
 		};
 		71C8B1B020983EA100C6B218 /* Model */ = {
@@ -391,6 +409,8 @@
 				7165C34B209F32970084107B /* PlayingCardGameViewController.mm in Sources */,
 				71C8B1BF2098400100C6B218 /* Card.mm in Sources */,
 				7192716820AC6687008B88A4 /* SetCardView.mm in Sources */,
+				717CD6D320ADB072006F3500 /* SymbolCreator.mm in Sources */,
+				717CD6D920ADB376006F3500 /* SquiggleSymbolCreator.mm in Sources */,
 				7192715F20AC56CA008B88A4 /* CardView.mm in Sources */,
 				714E063320983BF500E0E515 /* CardGameViewController.mm in Sources */,
 				7192716220AC59A4008B88A4 /* Grid.m in Sources */,

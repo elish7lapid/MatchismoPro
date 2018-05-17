@@ -576,6 +576,7 @@
                         <barButtonItem key="rightBarButtonItem" title="History" id="rsO-RM-Lbc"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="blob" destination="Rp4-JV-skF" id="XkQ-2E-aad"/>
                         <outlet property="scoreLabel" destination="iXu-wH-0zP" id="c5y-pT-Df0"/>
                         <outletCollection property="cardButtons" destination="mFm-AQ-YHS" id="0uM-pl-Qbc"/>
                         <outletCollection property="cardButtons" destination="4Mz-4c-OXp" id="njk-ng-4q8"/>
