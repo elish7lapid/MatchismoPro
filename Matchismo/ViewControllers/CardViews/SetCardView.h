@@ -19,10 +19,10 @@ typedef enum {
   kUnfilled
 }ContentsFillPattern;
   
-@property ContentsSymbol symbol;
-@property NSInteger numSymbols;
-@property UIColor *symbolColor;
-@property ContentsFillPattern fillPattern;
+@property (nonatomic) ContentsSymbol symbol;
+@property (nonatomic) NSInteger numSymbols;
+@property (nonatomic) UIColor *symbolColor;
+@property (nonatomic) ContentsFillPattern fillPattern;
 
 @end
 

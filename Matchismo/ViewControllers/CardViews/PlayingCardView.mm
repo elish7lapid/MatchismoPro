@@ -11,17 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation PlayingCardView
 
+@synthesize faceCardScaleFactor = _faceCardScaleFactor;
+
 static const auto kDefaultFaceCardScaleFactor = 0.10;
 static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10",
                                   @"J", @"Q", @"K"];
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-  if (self = [super initWithFrame:frame]) {
-    _faceCardScaleFactor = kDefaultFaceCardScaleFactor;
-  }
-  return self;
-}
 
 - (void)drawContents {
   if (!self.faceUp) {
@@ -121,6 +115,13 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   }
   _faceCardScaleFactor = faceCardScaleFactor;
   [self setNeedsDisplay];
+}
+
+- (CGFloat)faceCardScaleFactor {
+  if (_faceCardScaleFactor == 0) {
+    _faceCardScaleFactor = kDefaultFaceCardScaleFactor;
+  }
+  return _faceCardScaleFactor;
 }
 
 @end
