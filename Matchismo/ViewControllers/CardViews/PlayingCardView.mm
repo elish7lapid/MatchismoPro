@@ -28,7 +28,7 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
     [self drawFaceDown];
     return;
   }
-  [self drawFace];
+  [self drawMiddleShape];
   [self drawCornerShapes];
 }
 
@@ -36,19 +36,35 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   [[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
 }
 
-- (void)drawFace {
-  UIImage *faceImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@%@", [self rankAsString],
+- (void)drawMiddleShape {
+  UIImage *faceIm = [UIImage imageNamed:[NSString stringWithFormat:@"%@%@", [self rankAsString],
                                             self.suit]];
-  if (!faceImage) {
+  if (!faceIm) {
+    [self drawCenterNumber];
     return;
   }
-  CGRect imRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceCardScaleFactor,
-                              self.bounds.size.height * self.faceCardScaleFactor);
-  [faceImage drawInRect:imRect];
+  [self drawFaceWithImage:faceIm];
+}
+
+- (void)drawFaceWithImage:(UIImage *)faceIm {
+  CGRect centeRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceCardScaleFactor,
+                                 self.bounds.size.height * self.faceCardScaleFactor);
+  [faceIm drawInRect:centeRect];
+}
+
+- (void)drawCenterNumber {
+  auto numText = [@"" stringByPaddingToLength:[self.suit length] * self.rank
+                                   withString: self.suit startingAtIndex:0];
+  auto centerText = [self createCenteredTextFromString:numText];
+  CGRect centeRect = CGRectInset(self.bounds, (self.bounds.size.width/2)  -
+                                 ([centerText size].width/self.rank), (self.bounds.size.height/2)  -
+                                 ([centerText size].height * ceil(self.rank / 4.0)));
+  [centerText drawInRect:centeRect];
 }
 
 - (void)drawCornerShapes {
-  auto cornerText = [self createCornerText];
+  auto rankSuit = [NSString stringWithFormat:@"%@\n%@", [self rankAsString], self.suit];
+  auto cornerText = [self createCenteredTextFromString:rankSuit];
   CGRect textBounds;
   textBounds.origin = CGPointMake([self cornerOffset], [self cornerOffset]);
   textBounds.size = [cornerText size];
@@ -59,14 +75,13 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   [cornerText drawInRect:textBounds];
 }
 
-- (NSAttributedString *)createCornerText {
+- (NSAttributedString *)createCenteredTextFromString:(NSString *)centeredStr {
   auto parStyle = [[NSMutableParagraphStyle alloc] init];
   parStyle.alignment = NSTextAlignmentCenter;
   UIFont *cornerFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
   cornerFont = [cornerFont fontWithSize:cornerFont.pointSize * [self cornerScaleFactor]];
-  auto rankSuit = [NSString stringWithFormat:@"%@\n%@", [self rankAsString], self.suit];
   auto attribs = @{NSFontAttributeName : cornerFont, NSParagraphStyleAttributeName : parStyle};
-  NSAttributedString *cornerText = [[NSAttributedString alloc] initWithString:rankSuit
+  NSAttributedString *cornerText = [[NSAttributedString alloc] initWithString:centeredStr
                                                                    attributes:attribs];
   return cornerText;
 }
