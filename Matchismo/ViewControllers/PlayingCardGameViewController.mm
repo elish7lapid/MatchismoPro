@@ -7,22 +7,25 @@
 #import "CardMatchingGame.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCardView.h"
+#import "Grid.h"
+#import "PlayingCard.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayingCardGameViewController()
 // The card buttons displayed in the view.
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (strong, readwrite, nonatomic) IBOutletCollection(UIView)
+                                         NSMutableArray<PlayingCardView *> *cards;
 @end
 
 @implementation PlayingCardGameViewController
 
-@dynamic cardButtons;
-
 @synthesize game = _game;
+@dynamic cards;
 
 // Number of cards that are matched in one turn of the matching game.
 static const NSUInteger kNumCardsToMatch = 2;
+static const NSUInteger kScaleMinimumNumCards = 4;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -30,39 +33,27 @@ static const NSUInteger kNumCardsToMatch = 2;
 }
 
 - (void)startNewGame {
-  _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
+  self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
                                             usingDeck:[self createDeck]];
   self.game.numCardsToMatch = kNumCardsToMatch;
+  [self createCardsOnGrid];
+}
+
+- (nullable CardView *)createCardViewFromCard:(PlayingCard *)card inRect:(CGRect)rect {
+  auto cardV = [[PlayingCardView alloc] initWithFrame:rect];
+  [self setCardViewProperties:cardV fromCard:card];
+  return cardV;
+}
+
+- (void)setCardViewProperties:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
+  cardV.rank = card.rank;
+  cardV.suit = card.suit;
+  cardV.faceUp = card.isChosen;
 }
 
 - (nullable Deck *)createDeck {
   return [[PlayingCardDeck alloc] init];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-}
-
-- (nullable UIImage *)backgroundImageForCard:(Card *)card {
-  return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
-}
-
-- (void)setCardButtonContents:(UIButton *)cardButton forCard:(Card *)card {
-  [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
-}
-
-- (NSString *)titleForCard:(Card *)card {
-  return card.isChosen ? card.stringContents : @"";
-}
-
-- (nullable NSMutableAttributedString *)createStringFromCardsArray:
-           (NSMutableArray<Card *> *)cardsArray {
-  auto concatenatedArrayString = @"";
-  for (Card *cardFromArray in cardsArray) {
-    concatenatedArrayString = [NSString stringWithFormat:@"%@%@%@", concatenatedArrayString,
-                               cardFromArray.stringContents, @", "];
-  }
-  return [[NSMutableAttributedString alloc] initWithString:concatenatedArrayString];
 }
 
 @end

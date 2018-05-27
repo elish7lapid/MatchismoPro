@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class Card, CardMatchingGame, Deck;
+@class Card, CardMatchingGame, CardView, Deck, Grid;
 
 /// View controller for a generall card game. Note that some of the methods are abstract.
 @interface CardGameViewController: UIViewController
@@ -33,16 +33,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An abstrct method which is only implemented by subclasses of \c CardGameViewController.
 /// Sets the contents displayed on \c cardButton to match the contents of \c card.
-- (void)setCardButtonContents:(UIButton *)cardButton forCard:(Card *)card;
+- (void)setCardViewContents:(CardView *)cardView forCard:(Card *)card;
 
 /// Updates the display on the screen to match the current game state.
 - (void)updateUI;
 
+- (nullable CardView *)createCardViewFromCard:(Card *)card inRect:(CGRect)rect;
+
+- (void)createCardsOnGrid;
+
 /// Object handling the logic of the game that is currently played in the \c CardGameViewController.
 @property (strong, readonly, nonatomic, nullable) CardMatchingGame *game;
 
-/// The card buttons displayed in the view.
-@property (strong, nonatomic) NSArray *cardButtons;
+/// The view that holds the cards.
+@property (weak, readonly, nonatomic) UIView *cardsSpace;
+
+@property (strong, readonly, nonatomic) NSMutableArray<CardView *> *cards;
+
+/// The grid of cards on the board.
+@property (nonatomic) Grid *grid;
 
 @end
 NS_ASSUME_NONNULL_END
