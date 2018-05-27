@@ -8,9 +8,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SetCardView : CardView
 
 typedef enum {
-  kTriangle,
-  kSquare,
-  kSquiggle
+  kDiamond,
+  kOval,
+  kRectangle
 }ContentsSymbol;
 
 typedef enum {

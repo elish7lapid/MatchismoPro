@@ -3,7 +3,9 @@
 
 #import "SetCardView.h"
 
-#import "SquiggleSymbolCreator.h"
+#import "DiamondCreator.h"
+#import "OvalCreator.h"
+#import "SquareCreator.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,16 +17,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize symbolScaleFactor = _symbolScaleFactor;
 
-static const auto kDefaultSymbolScaleFactor = 0.70;
+static const auto kDefaultSymbolScaleFactor = 0.50;
+static const auto kMarginsScale = 0.10;
+static const auto kStripesMarginsScale = 0.05;
 
 + (SymbolCreator *)drawersFactory:(ContentsSymbol)symbol {
   switch (symbol) {
-    case kTriangle:
-      break;
-    case kSquare:
-      break;
-    case kSquiggle:
-      return [[SquiggleSymbolCreator alloc]init];
+    case kDiamond:
+      return [[DiamondCreator alloc] init];
+    case kOval:
+      return [[OvalCreator alloc] init];
+    case kRectangle:
+      return [[SquareCreator alloc] init];
     default:
       break;
   }
@@ -33,35 +37,64 @@ static const auto kDefaultSymbolScaleFactor = 0.70;
 
 - (void)drawContents {
   auto drawer = [SetCardView drawersFactory:self.symbol];
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  auto scale = [drawer scaleForWidth:[self desiredWidth] andHeight:[self desiredHeight]];
-  CGContextScaleCTM(context, scale, scale);
-  CGContextTranslateCTM(context, [self xCoordForShapeWithWidth:107.8],
-                        [self initialYCoordForShapeWithHeight:[self desiredHeight]]);
-  [drawer createInContext:context];
-  CGContextTranslateCTM(context, 10, 10);
-  [drawer createInContext:context];
-  // draw the squiggle
-  CGContextSetLineCap(context, kCGLineCapRound);
-  CGContextSetLineWidth(context, 2.0 );
-  CGContextStrokePath(context);
-  
+  [self drawSymbolsWithSymbolsCreator:drawer];
 }
 
-- (CGFloat)xCoordForShapeWithWidth:(CGFloat)width { // todo doesnt scale right
-  return (self.bounds.size.width / 2) - (width/2);
+- (void)drawSymbolsWithSymbolsCreator:(SymbolCreator *)creator {
+  auto mainPath = [[UIBezierPath alloc] init];
+  for (NSValue *symbRect in [self rectsForSymbols]){
+    auto contentsPath = [creator createInPathWithRect:[symbRect CGRectValue]];
+    [mainPath appendPath:contentsPath];
+  }
+  [mainPath addClip];
+  [self paintPath:mainPath];
 }
 
-- (CGFloat)initialYCoordForShapeWithHeight:(CGFloat)height { //todo doesnt scale right
-  return (self.bounds.size.height / 2) - (((height + 1 - self.symbolScaleFactor)*self.numSymbols)/2);
+- (NSMutableArray<NSValue *> *)rectsForSymbols {
+  auto symbolWidth = self.bounds.size.width*kDefaultSymbolScaleFactor;
+  auto symbolHeight = symbolWidth/2;
+  auto x = self.bounds.size.width*(1-kDefaultSymbolScaleFactor)/2;
+  auto y = (self.bounds.size.height/2) - (symbolHeight*self.numSymbols/2) - ([self contentsMargins]*(self.numSymbols - 1)/2);
+  auto squaresArr = [NSMutableArray array];
+  [squaresArr addObject:[NSValue valueWithCGRect: CGRectMake(x, y, symbolWidth, symbolHeight)]];
+  for (NSInteger i = 1; i < self.numSymbols; i ++) {
+    y += symbolHeight + [self contentsMargins];
+    [squaresArr addObject:[NSValue valueWithCGRect: CGRectMake(x, y, symbolWidth, symbolHeight)]];
+  }
+  return squaresArr;
 }
 
-- (CGFloat)desiredWidth {
-  return self.bounds.size.width * self.symbolScaleFactor;
+- (void)paintPath:(UIBezierPath *)path {
+  [self.symbolColor setFill];
+  [self fillPathWithPattern:path];
+  [self.symbolColor setStroke];
+  [path stroke];
 }
 
-- (CGFloat)desiredHeight {
-  return (self.bounds.size.height / self.numSymbols) * self.symbolScaleFactor;
+- (void)fillPathWithPattern:(UIBezierPath *)path {
+  switch (self.fillPattern) {
+    case kSolid:
+      [path fill];
+      break;
+    case kStriped:
+      [self createStrippedFillingInPath:path];
+      break;
+    case kUnfilled:
+      break;
+    default:
+      break;
+  }
+}
+
+- (void)createStrippedFillingInPath:(UIBezierPath *)path {
+  for (NSInteger i=0; i < self.bounds.size.width; i += kStripesMarginsScale*self.bounds.size.width) {
+    [path moveToPoint:CGPointMake(i, 0)];
+    [path addLineToPoint:CGPointMake(i, self.bounds.size.height)];
+  }
+}
+
+- (CGFloat)contentsMargins {
+  return kMarginsScale*self.bounds.size.height*kDefaultSymbolScaleFactor;
 }
 
 - (void)setSymbol:(ContentsSymbol)symbol {

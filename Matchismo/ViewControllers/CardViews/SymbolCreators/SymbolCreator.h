@@ -8,8 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SymbolCreator : NSObject
 
-- (void)createInContext:(CGContextRef)context;
-- (CGFloat)scaleForWidth:(CGFloat)width andHeight:(CGFloat)height;
+- (nullable UIBezierPath*)createInPathWithRect:(CGRect)rect;
 
 @end
 

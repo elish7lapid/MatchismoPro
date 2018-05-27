@@ -27,8 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 static const NSUInteger kNumCardsToMatch = 3;
 
 - (void)viewDidLoad {
-  self.blob.symbol = kSquiggle;
-  self.blob.numSymbols = 1;
+  self.blob.symbol = kDiamond;
+  self.blob.numSymbols = 3;
+  self.blob.symbolColor = [UIColor greenColor];
+  self.blob.fillPattern = kStriped;
   [super viewDidLoad];
   [self startNewGame];
 }

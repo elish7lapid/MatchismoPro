@@ -5,7 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SquiggleSymbolCreator : SymbolCreator
+@interface SquareCreator : SymbolCreator
 
 @end
 

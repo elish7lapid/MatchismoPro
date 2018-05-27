@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize faceCardScaleFactor = _faceCardScaleFactor;
 
 static const auto kDefaultFaceCardScaleFactor = 0.10;
-static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10",
-                                  @"J", @"Q", @"K"];
+static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9",
+                                       @"10", @"J", @"Q", @"K"];
 
 - (void)drawContents {
   if (!self.faceUp) {
@@ -40,12 +40,6 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   [self drawFaceWithImage:faceIm];
 }
 
-- (void)drawFaceWithImage:(UIImage *)faceIm {
-  CGRect centeRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceCardScaleFactor,
-                                 self.bounds.size.height * self.faceCardScaleFactor);
-  [faceIm drawInRect:centeRect];
-}
-
 - (void)drawCenterNumber {
   auto numText = [@"" stringByPaddingToLength:[self.suit length] * self.rank
                                    withString: self.suit startingAtIndex:0];
@@ -54,6 +48,12 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
                                  ([centerText size].width/self.rank), (self.bounds.size.height/2)  -
                                  ([centerText size].height * ceil(self.rank / 4.0)));
   [centerText drawInRect:centeRect];
+}
+
+- (void)drawFaceWithImage:(UIImage *)faceIm {
+  CGRect centeRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceCardScaleFactor,
+                                 self.bounds.size.height * self.faceCardScaleFactor);
+  [faceIm drawInRect:centeRect];
 }
 
 - (void)drawCornerShapes {
