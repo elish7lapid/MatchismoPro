@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)drawContents;
 - (CGFloat)cornerScaleFactor;
 - (CGFloat)cornerOffset;
+- (void)setup;
 
 @end
 

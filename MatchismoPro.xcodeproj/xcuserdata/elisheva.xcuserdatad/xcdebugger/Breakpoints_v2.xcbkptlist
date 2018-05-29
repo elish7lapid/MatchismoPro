@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/ViewControllers/SetCardGameViewController.mm"
-            timestampString = "549128328.899313"
+            timestampString = "549270084.660647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "SetCardGameViewController"
-            landmarkType = "3">
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/Model/SetCards/SetCard.mm"
-            timestampString = "547893186.2354929"
+            timestampString = "549270084.660753"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "-match:"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "-matchContentOfTraits:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/Model/SetCards/SetCard.mm"
-            timestampString = "547893186.235538"
+            timestampString = "549270084.660797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "-match:"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-matchContentOfTraits:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/Model/SetCards/SetCard.mm"
-            timestampString = "547893186.235581"
+            timestampString = "549270084.660834"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "83"
-            endingLineNumber = "83"
-            landmarkName = "-match:"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "-matchContentOfTraits:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/Model/SetCards/SetCard.mm"
-            timestampString = "547893186.235622"
+            timestampString = "549270084.660877"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "-updateLastMatchCardWith:ifTraitsAreBetterFrom:"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "-gatMatchingTraitsWithOtherCard:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/ViewControllers/CardGameViewController.mm"
-            timestampString = "549128328.899448"
+            timestampString = "549270084.660925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "-backgroundImageForCard:"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Matchismo/ViewControllers/CardViews/SetCardView.mm"
-            timestampString = "549128328.899578"
+            timestampString = "549270084.6610481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "-drawSymbolsWithSymbolsCreator:"
             landmarkType = "7">
          </BreakpointContent>
@@ -262,16 +262,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Matchismo/ViewControllers/CardGameViewController.mm"
-            timestampString = "549128328.899911"
+            filePath = "Matchismo/ViewControllers/CardViews/CardView.mm"
+            timestampString = "549270084.661407"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "-createCardsOnGrid"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "-drawRect:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -16,19 +16,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SetCard
 
-static auto const kValidAlphas = @[[NSNumber numberWithFloat:0.3f],
-                                   [NSNumber numberWithFloat:1]];
+static auto const kValidPatterns = @[@"solid", @"None", @"Stripped"];
 static auto const kValidColors = @[[UIColor greenColor], [UIColor purpleColor], [UIColor grayColor]];
 static const NSInteger kValidMaxNumShapes = 3;
-static auto const kValidShapeSymbols = @[@"▲", @"●", @"■"];
+static auto const kValidShapeSymbols = @[@"♦︎", @"●", @"■"];
 
 
 + (NSArray<UIColor *> *)validColors {
   return kValidColors;
 }
 
-+ (NSArray<NSNumber *> *)validAlphas {
-  return kValidAlphas;
++ (NSArray<NSString *> *)validPatterns {
+  return kValidPatterns;
 }
 
 + (NSArray<NSString *> *)validSymbols {
@@ -41,37 +40,26 @@ static auto const kValidShapeSymbols = @[@"▲", @"●", @"■"];
 
 + (BOOL)constructorInputIsValid:(NSString *)symbol numShapes:(NSInteger)numShapes
                           color:(UIColor *)color
-                       andAlpha:(NSNumber *)alpha {
+                       andPattern:(NSString *)pattern {
   if (![kValidShapeSymbols containsObject:symbol] || numShapes > kValidMaxNumShapes ||
       numShapes < 1 || ![[SetCard validColors] containsObject:color] ||
-      ![[SetCard validAlphas] containsObject:alpha]) {
+      ![kValidPatterns containsObject:pattern]) {
     return NO;
   }
   return YES;
 }
 
 - (instancetype)initWithShapeSymbol:(NSString *)symbol numSymbols:(NSInteger)numShapes
-                             color:(UIColor *)color andAlpha:(NSNumber *)alpha {
+                             color:(UIColor *)color andPattern:(NSString *)pattern {
   if (self = [super init]){
     if (![SetCard constructorInputIsValid:symbol numShapes:numShapes
-                                    color:color andAlpha:alpha]) {
+                                    color:color andPattern:pattern]) {
       return nil;
     }
     _setContents = [[SetCardContents alloc] initWithShapeSymbol:symbol numSymbols:numShapes
-                                                            color:color andAlpha:alpha];
+                                                            color:color andPattern:pattern];
   }
   return self;
-}
-
-- (NSAttributedString *)contentsAsAtributtedString {
-  auto colorWithShading = [self.setContents.color
-                           colorWithAlphaComponent:[self.setContents.alpha floatValue]];
-  auto contentsAsString = [@"" stringByPaddingToLength:self.setContents.numSymbols*
-                           [self.setContents.symbol length] withString:
-                           self.setContents.symbol startingAtIndex:0];
-  return [[NSAttributedString alloc] initWithString:contentsAsString
-                                         attributes:@{NSForegroundColorAttributeName :
-                                                        colorWithShading}];
 }
 
 - (nullable NSString *)stringContents {
@@ -136,7 +124,7 @@ static auto const kValidShapeSymbols = @[@"▲", @"●", @"■"];
   if ([self.setContents isMatchingColor:otherCard.setContents]) {
     traits[2] = @1;
   }
-  if ([self.setContents isMatchingAlpha:otherCard.setContents]) {
+  if ([self.setContents isMatchingPattern:otherCard.setContents]) {
     traits[3] = @1;
   }
   return traits;

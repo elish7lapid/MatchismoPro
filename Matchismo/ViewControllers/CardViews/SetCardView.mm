@@ -21,6 +21,29 @@ static const auto kDefaultSymbolScaleFactor = 0.50;
 static const auto kMarginsScale = 0.10;
 static const auto kStripesMarginsScale = 0.05;
 
++ (ContentsSymbol)stringToSymbol:(NSString *)symbString {
+  if ([symbString isEqualToString:@"♦︎"]) {
+    return kDiamond;
+  }
+  if ([symbString isEqualToString:@"●"]) {
+    return kOval;
+  }
+  if ([symbString isEqualToString:@"■"]) {
+    return kRectangle;
+  }
+  return kDiamond;
+}
+
++ (ContentsFillPattern)stringToPattern:(NSString *)pattern {
+  if ([pattern isEqualToString:@"solid"]) {
+    return kSolid;
+  }
+  if ([pattern isEqualToString:@"None"]) {
+    return kUnfilled;
+  }
+  return kStriped;
+}
+
 + (SymbolCreator *)drawersFactory:(ContentsSymbol)symbol {
   switch (symbol) {
     case kDiamond:

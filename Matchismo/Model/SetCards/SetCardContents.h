@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \c alpha is the transparency of the color.
 - (instancetype)initWithShapeSymbol:(NSString *)symbol numSymbols:(NSInteger)numSymbols
                               color:(UIColor *)color
-                           andAlpha:(NSNumber *)alpha NS_DESIGNATED_INITIALIZER;
+                           andPattern:(NSString *)pattern NS_DESIGNATED_INITIALIZER;
 
 /// If YES, then \c numSymbols equals to \c otherContent.numSymbols, else it is not equal.
 - (BOOL)isMatchingNumSymbols:(SetCardContents *)otherContent;
@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isMatchingColor:(SetCardContents *)otherContent;
 
 /// If YES, then \c alpha equals to \c otherContent.alpha, else it is not equal.
-- (BOOL)isMatchingAlpha:(SetCardContents *)otherContent;
+- (BOOL)isMatchingPattern:(SetCardContents *)otherContent;
 
 /// Returns the number of traits a \c SetCardContents have. E.g, if the contents of a card only have
 /// a symbol and a color, then it has 2 traits.
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) UIColor *color;
 
 /// The trancparicy of \c color.
-@property (readonly, nonatomic) NSNumber *alpha;
+@property (readonly, nonatomic) NSString *pattern;
 
 
 @end

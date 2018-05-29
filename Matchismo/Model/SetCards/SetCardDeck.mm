@@ -19,27 +19,27 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)addCardsWithColor:(UIColor *)color {
-  for (NSNumber *alpha in [SetCard validAlphas]) {
-    [self addCardsWithColor:color andAlpha: alpha];
+  for (NSString *pattern in [SetCard validPatterns]) {
+    [self addCardsWithColor:color andPattern: pattern];
   }
 }
 
-- (void)addCardsWithColor:(UIColor *)color andAlpha:(NSNumber *)alpha {
+- (void)addCardsWithColor:(UIColor *)color andPattern:(NSString *)pattern {
   for (NSString *shapeType in [SetCard validSymbols]) {
-    [self addCardWithColor:color alpha:alpha andShape:shapeType];
+    [self addCardWithColor:color pattern:pattern andShape:shapeType];
   }
 }
 
-- (void)addCardWithColor:(UIColor *)color alpha:(NSNumber *)alpha andShape:(NSString *)shape {
+- (void)addCardWithColor:(UIColor *)color pattern:(NSString *)pattern andShape:(NSString *)shape {
   for (NSInteger i = 1; i < ([SetCard validMaximumNumShapes] + 1); i++) {
-    [self addCardWithColor:color alpha:alpha shape:shape andNumShapes:i];
+    [self addCardWithColor:color pattern:pattern shape:shape andNumShapes:i];
   }
 }
 
-- (void)addCardWithColor:(UIColor *)color alpha:(NSNumber *)alpha shape:(NSString *)shape
+- (void)addCardWithColor:(UIColor *)color pattern:(NSString *)pattern shape:(NSString *)shape
             andNumShapes:(NSUInteger)numShapes {
   auto card = [[SetCard alloc] initWithShapeSymbol:shape numSymbols:numShapes color:color
-                                           andAlpha:alpha];
+                                           andPattern:pattern];
   [self addCard:card];
 }
 

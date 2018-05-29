@@ -15,13 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithShapeSymbol:(NSString *)symbol numSymbols:(NSInteger)numShapes
                               color:(UIColor *)color
-                           andAlpha:(NSNumber *)alpha {
+                           andPattern:(NSString *)pattern {
   
   if (self = [super init]) {
     _numSymbols = numShapes;
     _symbol = symbol;
     _color = color;
-    _alpha = alpha;
+    _pattern = pattern;
   }
   return self;
 }
@@ -38,8 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
   return [self.color isEqual:otherContent.color];
 }
 
-- (BOOL)isMatchingAlpha:(SetCardContents *)otherContent {
-  return self.alpha == otherContent.alpha;
+- (BOOL)isMatchingPattern:(SetCardContents *)otherContent {
+  return [self.pattern isEqualToString:otherContent.pattern];
 }
 
 @end

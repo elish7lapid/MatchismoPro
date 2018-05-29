@@ -9,6 +9,7 @@
 #import "SetCardDeck.h"
 #import "SetCardView.h"
 #import "Grid.h"
+#import "SetCardContents.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,7 +47,10 @@ static const NSUInteger kScaleMinimumNumCards = 4;
 }
 
 - (void)setCardViewProperties:(SetCardView *)cardV fromCard:(SetCard *)card {
-  //TODO
+  cardV.symbol = [SetCardView stringToSymbol:card.setContents.symbol];
+  cardV.numSymbols = card.setContents.numSymbols;
+  cardV.symbolColor = card.setContents.color;
+  cardV.fillPattern = [SetCardView stringToPattern:card.setContents.pattern];
 }
 
 - (nullable Deck *)createDeck {

@@ -11,11 +11,6 @@ static const auto kCornerFontStandardHeight = 180.0;
 static const auto kCornerOffsetShrinkingFactor = 3.0;
 static const auto kCornerRadius = 12.0;
 
-- (void)awakeFromNib {
-  [super awakeFromNib];
-  [self setup];
-}
-
 - (void)setup {
   self.backgroundColor = nil;
   self.opaque = NO;
@@ -23,6 +18,7 @@ static const auto kCornerRadius = 12.0;
 }
 
 - (void)drawRect:(CGRect)rect {
+  [self setup];
   UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:self.bounds
                                                          cornerRadius:[self cornerRadius]];
   [roundedRect addClip];

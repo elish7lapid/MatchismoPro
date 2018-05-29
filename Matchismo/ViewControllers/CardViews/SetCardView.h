@@ -24,6 +24,9 @@ typedef enum {
 @property (nonatomic) UIColor *symbolColor;
 @property (nonatomic) ContentsFillPattern fillPattern;
 
++ (ContentsSymbol)stringToSymbol:(NSString *)symbString;
++ (ContentsFillPattern)stringToPattern:(NSString *)pattern;
+
 @end
 
 NS_ASSUME_NONNULL_END

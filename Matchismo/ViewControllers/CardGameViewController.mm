@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation CardGameViewController
 
 static const auto kCardsSizeRatio = 0.6;
+static const auto kCardsScaleFactor = 0.9;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -44,12 +45,20 @@ static const auto kCardsSizeRatio = 0.6;
   for (NSUInteger i = 0; i < self.grid.rowCount; i++) {
     for (NSUInteger j = 0; j < self.grid.columnCount; j++) {
       Card *card = (Card *)[self.game cardAtIndex:count];
-      auto cardV = [self createCardViewFromCard:card inRect:[self.grid frameOfCellAtRow:i inColumn:j]];
+      auto frame = [self.grid frameOfCellAtRow:i inColumn:j];
+      auto cardV = [self createCardViewFromCard:card inRect:[self createRectInFrame:frame]];
+      [cardV setup];
       [self.cards addObject:cardV];
       [self.cardsSpace addSubview:cardV];
       count ++;
     }
   }
+}
+
+- (CGRect)createRectInFrame:(CGRect)frame {
+  auto x = frame.origin.x + (frame.size.width*(1 - kCardsScaleFactor)/2);
+  auto y = frame.origin.y + (frame.size.height*(1 - kCardsScaleFactor)/2);
+  return CGRectMake(x, y, frame.size.width*kCardsScaleFactor, frame.size.height*kCardsScaleFactor);
 }
 
 - (nullable CardView *)createCardViewFromCard:(Card *)card inRect:(CGRect)rect {

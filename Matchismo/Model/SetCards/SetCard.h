@@ -18,16 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// \c alpha is the transparency of the color.
 - (instancetype)initWithShapeSymbol:(NSString *)symbol numSymbols:(NSInteger)numSymbols
                               color:(UIColor *)color
-                           andAlpha:(NSNumber *)alpha NS_DESIGNATED_INITIALIZER;
-
-/// Returns the contents of the card as an attributed string.
-- (NSAttributedString *)contentsAsAtributtedString;
+                           andPattern:(NSString *)pattern NS_DESIGNATED_INITIALIZER;
 
 /// Returns the valid colors possible for a \c SetCard.
 + (NSArray<UIColor *> *)validColors;
 
 /// Returns the valid alpha values possible for a \c SetCard.
-+ (NSArray<NSNumber *> *)validAlphas;
++ (NSArray<NSNumber *> *)validPatterns;
 
 /// Returns the valid symbols possible for a \c SetCard.
 + (NSArray<NSString *> *)validSymbols;
