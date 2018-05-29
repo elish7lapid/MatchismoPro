@@ -47,56 +47,6 @@ static const NSUInteger kScaleMinimumNumCards = 4;
   return cardV;
 }
 
-- (void)updateCardViews {
-  if ((![self.game.lastMatchedCards count]) && self.game.turnEnded) {
-    [self unsuccessfullTurnEndUpdateCardViews];
-    return;
-  }
-  [self regularUpdateCardViews];
-}
-
-- (void)unsuccessfullTurnEndUpdateCardViews {
-  auto cardsChanged = [self getFaceUpAndLastChosenCardViews];
-  [UIView animateWithDuration:0.8 animations:^
-   { cardsChanged[1].faceUp = YES;
-     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:cardsChanged[1] cache:YES];
-   } completion:^(BOOL finished){[UIView animateWithDuration:0.8 animations:^{
-     cardsChanged[1].faceUp = NO;
-     cardsChanged[0].faceUp = NO;
-     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:cardsChanged[1] cache:YES];
-     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:cardsChanged[0] cache:YES];
-   }];}];
-  
-}
-
-- (NSArray<PlayingCardView *> *)getFaceUpAndLastChosenCardViews {
-  PlayingCardView *faceUpCard = nil;
-  PlayingCardView *lastChosen = nil;
-  for (PlayingCardView *cardV in self.cards) {
-    auto cardViewIndex = [self.cards indexOfObject:cardV];
-    auto card = [self.game cardAtIndex:cardViewIndex];
-    if (card == self.game.lastChosenCard) {
-      lastChosen = cardV;
-    }
-    else if ((cardV.faceUp && !card.isMatched)) {
-      faceUpCard = cardV;
-    }
-  }
-  return @[faceUpCard, lastChosen];
-}
-
-- (void)regularUpdateCardViews {
-  for (PlayingCardView *cardView in self.cards) {
-    [self updateUIForCardView:cardView];
-  }
-}
-
-- (void)updateUIForCardView:(PlayingCardView *)cardV {
-  auto cardViewIndex = [self.cards indexOfObject:cardV];
-  auto card = [self.game cardAtIndex:cardViewIndex];
-  [self updateCardViewContents:cardV fromCard:card];
-}
-
 - (void)updateCardViewContents:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
   cardV.rank = card.rank;
   cardV.suit = card.suit;
@@ -104,17 +54,42 @@ static const NSUInteger kScaleMinimumNumCards = 4;
 }
 
 - (void)flipCardView:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
+  if ((![self.game.lastMatchedCards count]) && self.game.turnEnded) {
+    [self flipUnsucssessfullTurnEnd:cardV fromCard:card];
+    return;
+  }
+  [self flipRegularCardView:cardV fromCard:card withDelay:0];
+}
+
+- (void)flipUnsucssessfullTurnEnd:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
+  if (card == self.game.lastChosenCard) {
+    [self flipLastCardOfUnsucssessfullTurn:cardV fromCard:card];
+    return;
+  }
+  [self flipRegularCardView:cardV fromCard:card withDelay:1.4];
+}
+
+- (void)flipLastCardOfUnsucssessfullTurn:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
+  [UIView animateWithDuration:0.8 animations:^
+   { [self setAnimateCardViewFlip:cardV toFaceUp:YES];
+   } completion:^(BOOL finished){
+     [self flipRegularCardView:cardV fromCard:card withDelay:1];
+   }];
+}
+
+- (void)flipRegularCardView:(PlayingCardView *)cardV fromCard:(PlayingCard *)card
+              withDelay:(NSUInteger)delay {
   if (cardV.faceUp == card.isChosen) {
     return;
   }
-  cardV.faceUp = card.isChosen;
-  [self flipToCardView:cardV];
+  [UIView animateWithDuration:0.8 delay:delay options:UIViewAnimationOptionBeginFromCurrentState
+                   animations:^{[self setAnimateCardViewFlip:cardV toFaceUp:card.isChosen];}
+                   completion:nil];
 }
 
-- (void)flipToCardView:(PlayingCardView *)otherV {
-  [UIView animateWithDuration:0.8 animations:^
-   {[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:otherV cache:YES];
-   }];
+- (void)setAnimateCardViewFlip:(PlayingCardView *)cardV toFaceUp:(BOOL)faceDirection {
+  cardV.faceUp = faceDirection;
+  [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:cardV cache:YES];
 }
 
 - (nullable Deck *)createDeck {

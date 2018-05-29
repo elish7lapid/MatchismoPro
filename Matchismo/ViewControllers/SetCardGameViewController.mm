@@ -32,18 +32,6 @@ static const NSUInteger kScaleMinimumNumCards = 4;
   [self startNewGame];
 }
 
-- (void)updateCardViews {
-  for (SetCardView *cardView in self.cards) {
-    [self updateUIForCardView:cardView];
-  }
-}
-
-- (void)updateUIForCardView:(SetCardView *)cardV {
-  auto cardViewIndex = [self.cards indexOfObject:cardV];
-  auto card = [self.game cardAtIndex:cardViewIndex];
-  [self updateCardViewContents:cardV fromCard:card];
-}
-
 - (void)startNewGame {
   _cards = [NSMutableArray array];
   self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;

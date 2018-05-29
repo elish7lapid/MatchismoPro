@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)createCardsOnGrid;
 
-- (void)updateCardViews;
-
 /// Object handling the logic of the game that is currently played in the \c CardGameViewController.
 @property (strong, readonly, nonatomic, nullable) CardMatchingGame *game;
 
