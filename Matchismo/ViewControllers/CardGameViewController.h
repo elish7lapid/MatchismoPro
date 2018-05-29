@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An abstrct method which is only implemented by subclasses of \c CardGameViewController.
 /// Sets the contents displayed on \c cardButton to match the contents of \c card.
-- (void)setCardViewContents:(CardView *)cardV forCard:(Card *)card;
+- (void)updateCardViewContents:(CardView *)cardV fromCard:(Card *)card;
 
 /// Updates the display on the screen to match the current game state.
 - (void)updateUI;
@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable CardView *)createCardViewFromCard:(Card *)card inRect:(CGRect)rect;
 
 - (void)createCardsOnGrid;
+
+- (void)updateCardViews;
 
 /// Object handling the logic of the game that is currently played in the \c CardGameViewController.
 @property (strong, readonly, nonatomic, nullable) CardMatchingGame *game;

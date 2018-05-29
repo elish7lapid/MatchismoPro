@@ -44,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The list of cards that were matched successfully by the user in the last choice.
 @property (readonly, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
 
+@property (readonly, nonatomic) Card *lastChosenCard;
+
 /// If \c YES, the user just finished choosing \c numCardsToMatch from the board.
 /// otherwise the user is in the middle of a turn and haven't finished choosing.
 @property (nonatomic) BOOL turnEnded;

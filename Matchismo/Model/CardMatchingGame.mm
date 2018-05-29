@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The list of cards that were matched successfully by the user in the last choice.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
 
+@property (readwrite, nonatomic) Card *lastChosenCard;
+
 @end
 
 @implementation CardMatchingGame
@@ -78,6 +80,7 @@ static const auto kMismatchPenalty = 2;
   }
   
   auto chosenCard = [self cardAtIndex:index];
+  self.lastChosenCard = chosenCard;
   [self chooseCard:chosenCard];
   
   if (chosenCard.isChosen && !chosenCard.isMatched) {

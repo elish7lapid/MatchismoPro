@@ -71,20 +71,12 @@ static const auto kCardsScaleFactor = 0.9;
 }
 
 - (void)updateUI {
-  for (CardView *cardView in self.cards) {
-    [self updateUIForCardView:cardView];
-  }
+  [self updateCardViews];
   self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.currentGameScore];
 }
 
-- (void)updateUIForCardView:(CardView *)cardV {
-  auto cardViewIndex = [self.cards indexOfObject:cardV];
-  auto card = [self.game cardAtIndex:cardViewIndex];
-  [self setCardViewContents:cardV forCard:card];
-}
-
 // An abstract method.
-- (void)setCardViewContents:(CardView *)cardV forCard:(Card *)card {
+- (void)updateCardViewContents:(CardView *)cardV fromCard:(Card *)card {
   return;
 }
 
