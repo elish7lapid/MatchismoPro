@@ -44,9 +44,11 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   auto numText = [@"" stringByPaddingToLength:[self.suit length] * self.rank
                                    withString: self.suit startingAtIndex:0];
   auto centerText = [self createCenteredTextFromString:numText];
-  CGRect centeRect = CGRectInset(self.bounds, (self.bounds.size.width/2)  -
-                                 ([centerText size].width/self.rank), (self.bounds.size.height/2)  -
-                                 ([centerText size].height * ceil(self.rank / 4.0)));
+  auto centerWidth = ([centerText size].width/self.rank)*2;
+  auto centerHeight = [centerText size].height * ceil(self.rank / 2.0);
+  CGRect centeRect = CGRectMake((self.bounds.size.width/2)  - centerWidth/2,
+                                (self.bounds.size.height/2) - centerHeight/2, centerWidth,
+                                centerHeight);
   [centerText drawInRect:centeRect];
 }
 

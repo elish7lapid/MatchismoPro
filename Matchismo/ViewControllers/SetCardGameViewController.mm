@@ -33,7 +33,13 @@ static const NSUInteger kScaleMinimumNumCards = 4;
 }
 
 - (void)startNewGame {
-  _cards = [NSMutableArray array];
+  if (!_cards) {
+    _cards = [NSMutableArray array];
+  }
+  else {
+    [self.cards makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.cards = [NSMutableArray array];
+  }
   self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;
   _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
                                             usingDeck:[self createDeck]];
