@@ -27,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readwrite, nonatomic) Card *lastChosenCard;
 
+@property (nonatomic) Deck *deck;
+
 @end
 
 @implementation CardMatchingGame
@@ -52,8 +54,9 @@ static const auto kMismatchPenalty = 2;
   if (self = [super init]) {
     _numCardsToMatch = 2;
     _cards = [[NSMutableArray alloc] init];
+    _deck = deck;
     for (int i = 0; i < count; i++) {
-      auto gameCard = [deck drawRandomCard];
+      auto gameCard = [self.deck drawRandomCard];
       if (!gameCard) {
         self = nil;
         break;
@@ -62,6 +65,21 @@ static const auto kMismatchPenalty = 2;
     }
   }
   return self;
+}
+
+- (void)dealMoreCards:(NSUInteger)numCards {
+  for (NSInteger i=0; i < numCards; i ++) {
+    auto card = [self.deck drawRandomCard];
+    [self.cards addObject:card];
+  }
+}
+
+- (NSUInteger)numberOfCardsInGame {
+  return [self.cards count];
+}
+
+- (BOOL)noMoreCardsToDeal {
+  return [self.deck isDeckEmpty];
 }
 
 - (Card *)cardAtIndex:(NSUInteger)index {

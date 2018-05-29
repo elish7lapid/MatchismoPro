@@ -29,6 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the card at index \c index.
 - (Card *)cardAtIndex:(NSUInteger)index;
 
+- (void)dealMoreCards:(NSUInteger)numCards;
+
+- (BOOL)noMoreCardsToDeal;
+
+- (NSUInteger)numberOfCardsInGame;
+
 /// The current (total) game score.
 @property (readonly, nonatomic) NSInteger currentGameScore;
 

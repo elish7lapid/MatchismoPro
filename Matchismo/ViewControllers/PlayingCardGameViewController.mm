@@ -3,7 +3,6 @@
 
 #import "PlayingCardGameViewController.h"
 
-#import "Card.h"
 #import "CardMatchingGame.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCardView.h"
@@ -13,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayingCardGameViewController()
-// The card buttons displayed in the view.
+// The card views displayed on screen.
 @property (strong, readwrite, nonatomic) IBOutletCollection(UIView)
                                          NSMutableArray<PlayingCardView *> *cards;
 @end
@@ -22,17 +21,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize game = _game;
 @synthesize cards = _cards;
-
-// Number of cards that are matched in one turn of the matching game.
-static const NSUInteger kNumCardsToMatch = 2;
-static const NSUInteger kScaleMinimumNumCards = 4;
+@synthesize numCardsToMatch = _numCardsToMatch;
 
 - (void)viewDidLoad {
+  _numCardsToMatch = 2;
   [super viewDidLoad];
   [self startNewGame];
 }
 
-- (void)startNewGame {
+- (void)initializeGame {
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
+                                            usingDeck:[self createDeck]];
+  self.game.numCardsToMatch = self.numCardsToMatch;
+}
+
+- (void)initializeCardsArray {
   if (!_cards) {
     _cards = [NSMutableArray array];
   }
@@ -40,14 +43,9 @@ static const NSUInteger kScaleMinimumNumCards = 4;
     [self.cards makeObjectsPerformSelector:@selector(removeFromSuperview)];
     self.cards = [NSMutableArray array];
   }
-  self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;
-  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
-                                            usingDeck:[self createDeck]];
-  self.game.numCardsToMatch = kNumCardsToMatch;
-  [self createCardsOnGrid];
 }
 
-- (nullable CardView *)createCardViewFromCard:(PlayingCard *)card inRect:(CGRect)rect {
+- (nullable CardView *)initializeBasicCardViewFromCard:(PlayingCard *)card inRect:(CGRect)rect {
   auto cardV = [[PlayingCardView alloc] initWithFrame:rect];
   [self updateCardViewContents:cardV fromCard:card];
   return cardV;

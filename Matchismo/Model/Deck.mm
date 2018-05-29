@@ -41,6 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
   return randomCard;
 }
 
+- (BOOL)isDeckEmpty {
+  return ![self.cards count];
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

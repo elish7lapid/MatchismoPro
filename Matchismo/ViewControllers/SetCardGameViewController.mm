@@ -3,13 +3,12 @@
 
 #import "SetCardGameViewController.h"
 
-#import "Card.h"
 #import "CardMatchingGame.h"
+#import "Grid.h"
 #import "SetCard.h"
+#import "SetCardContents.h"
 #import "SetCardDeck.h"
 #import "SetCardView.h"
-#import "Grid.h"
-#import "SetCardContents.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,17 +21,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize cards = _cards;
 @synthesize game = _game;
-
-// Number of cards that are matched in one turn of the matching game.
-static const NSUInteger kNumCardsToMatch = 3;
-static const NSUInteger kScaleMinimumNumCards = 4;
+@synthesize numCardsToMatch = _numCardsToMatch;
 
 - (void)viewDidLoad {
+  _numCardsToMatch = 3;
   [super viewDidLoad];
   [self startNewGame];
 }
 
-- (void)startNewGame {
+- (void)initializeGame {
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
+                                            usingDeck:[self createDeck]];
+  self.game.numCardsToMatch = self.numCardsToMatch;
+}
+
+- (void)initializeCardsArray {
   if (!_cards) {
     _cards = [NSMutableArray array];
   }
@@ -40,14 +43,9 @@ static const NSUInteger kScaleMinimumNumCards = 4;
     [self.cards makeObjectsPerformSelector:@selector(removeFromSuperview)];
     self.cards = [NSMutableArray array];
   }
-  self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;
-  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
-                                            usingDeck:[self createDeck]];
-  self.game.numCardsToMatch = kNumCardsToMatch;
-  [self createCardsOnGrid];
 }
 
-- (nullable CardView *)createCardViewFromCard:(SetCard *)card inRect:(CGRect)rect {
+- (nullable CardView *)initializeBasicCardViewFromCard:(SetCard *)card inRect:(CGRect)rect {
   auto cardV = [[SetCardView alloc] initWithFrame:rect];
   [self updateCardViewContents:cardV fromCard:card];
   return cardV;
