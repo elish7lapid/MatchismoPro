@@ -27,19 +27,6 @@ static const auto kCardsScaleFactor = 0.9;
   _grid.size = _cardsSpace.bounds.size;
 }
 
-- (void)updateUI {
-  for (CardView *cardView in self.cards) {
-    [self updateUIForCardView:cardView];
-  }
-  self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.currentGameScore];
-}
-
-- (void)updateUIForCardView:(CardView *)cardV {
-  auto cardViewIndex = [self.cards indexOfObject:cardV];
-  auto card = [self.game cardAtIndex:cardViewIndex];
-  [self setCardViewContents:cardV forCard:card];
-}
-
 - (void)createCardsOnGrid {
   auto count = 0;
   for (NSUInteger i = 0; i < self.grid.rowCount; i++) {
@@ -48,6 +35,7 @@ static const auto kCardsScaleFactor = 0.9;
       auto frame = [self.grid frameOfCellAtRow:i inColumn:j];
       auto cardV = [self createCardViewFromCard:card inRect:[self createRectInFrame:frame]];
       [cardV setup];
+      [self setTappingForCardView:cardV];
       [self.cards addObject:cardV];
       [self.cardsSpace addSubview:cardV];
       count ++;
@@ -61,19 +49,43 @@ static const auto kCardsScaleFactor = 0.9;
   return CGRectMake(x, y, frame.size.width*kCardsScaleFactor, frame.size.height*kCardsScaleFactor);
 }
 
+- (void)setTappingForCardView:(CardView *)cardV {
+  auto tapgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCard:)];
+  [cardV addGestureRecognizer:tapgr];
+}
+
+- (void)tapCard:(UITapGestureRecognizer *)recognizer {
+  auto pressed = (CardView *)recognizer.view;
+  auto chosenButtonIndex = [self.cards indexOfObject:pressed];
+  [self.game chooseCardAtIndex:chosenButtonIndex];
+  [self updateUI];
+}
+
 - (nullable CardView *)createCardViewFromCard:(Card *)card inRect:(CGRect)rect {
   return nil;
 }
 
-//- (IBAction)touchCardButton:(UIButton *)sender {
-//  auto chosenButtonIndex = [self.cards indexOfObject:sender];
-//  [self.game chooseCardAtIndex:chosenButtonIndex];
-//  [self updateUI];
-//}
-
 - (IBAction)touchRestartButton:(UIButton *)sender {
   [self startNewGame];
   [self updateUI];
+}
+
+- (void)updateUI {
+  for (CardView *cardView in self.cards) {
+    [self updateUIForCardView:cardView];
+  }
+  self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", self.game.currentGameScore];
+}
+
+- (void)updateUIForCardView:(CardView *)cardV {
+  auto cardViewIndex = [self.cards indexOfObject:cardV];
+  auto card = [self.game cardAtIndex:cardViewIndex];
+  [self setCardViewContents:cardV forCard:card];
+}
+
+// An abstract method.
+- (void)setCardViewContents:(CardView *)cardV forCard:(Card *)card {
+  return;
 }
 
 // An abstract method.
@@ -97,8 +109,7 @@ static const auto kCardsScaleFactor = 0.9;
   return nil;
 }
 
-// An abstract method.
-- (void)setCardViewContents:(CardView *)cardView forCard:(Card *)card {
+- (void)addCardView:(CardView *)cardV {
   return;
 }
 

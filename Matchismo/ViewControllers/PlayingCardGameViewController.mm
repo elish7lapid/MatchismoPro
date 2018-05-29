@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @implementation PlayingCardGameViewController
 
 @synthesize game = _game;
-@dynamic cards;
+@synthesize cards = _cards;
 
 // Number of cards that are matched in one turn of the matching game.
 static const NSUInteger kNumCardsToMatch = 2;
@@ -33,6 +33,7 @@ static const NSUInteger kScaleMinimumNumCards = 4;
 }
 
 - (void)startNewGame {
+  _cards = [NSMutableArray array];
   self.grid.minimumNumberOfCells = kNumCardsToMatch*kScaleMinimumNumCards;
   _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
                                             usingDeck:[self createDeck]];
@@ -42,11 +43,11 @@ static const NSUInteger kScaleMinimumNumCards = 4;
 
 - (nullable CardView *)createCardViewFromCard:(PlayingCard *)card inRect:(CGRect)rect {
   auto cardV = [[PlayingCardView alloc] initWithFrame:rect];
-  [self setCardViewProperties:cardV fromCard:card];
+  [self setCardViewContents:cardV forCard:card];
   return cardV;
 }
 
-- (void)setCardViewProperties:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
+- (void)setCardViewContents:(PlayingCardView *)cardV forCard:(PlayingCard *)card {
   cardV.rank = card.rank;
   cardV.suit = card.suit;
   cardV.faceUp = card.isChosen;
