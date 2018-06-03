@@ -23,6 +23,7 @@ typedef enum {
 @property (nonatomic) NSInteger numSymbols;
 @property (nonatomic) UIColor *symbolColor;
 @property (nonatomic) ContentsFillPattern fillPattern;
+@property (nonatomic) BOOL isChosen;
 
 + (ContentsSymbol)stringToSymbol:(NSString *)symbString;
 + (ContentsFillPattern)stringToPattern:(NSString *)pattern;

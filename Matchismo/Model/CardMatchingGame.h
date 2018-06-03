@@ -29,7 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the card at index \c index.
 - (Card *)cardAtIndex:(NSUInteger)index;
 
-- (void)dealMoreCards:(NSUInteger)numCards;
+- (NSUInteger)indexOfCard:(Card *)card;
+
+- (NSArray <Card *> *)dealMoreCards:(NSUInteger)numCards;
+
+- (void)removeMatchedCardsFromGame;
 
 - (BOOL)noMoreCardsToDeal;
 
@@ -43,9 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The game mode- how many cards can the user choose in a turn.
 @property (nonatomic) NSInteger numCardsToMatch;
-
-/// The list of cards that are currently chosen by the user.
-@property (readonly, nonatomic) NSMutableArray<Card *> *currentChosenCards;
 
 /// The list of cards that were matched successfully by the user in the last choice.
 @property (readonly, nonatomic) NSMutableArray<Card *> *lastMatchedCards;

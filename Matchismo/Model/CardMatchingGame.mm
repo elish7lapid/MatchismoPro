@@ -67,11 +67,24 @@ static const auto kMismatchPenalty = 2;
   return self;
 }
 
-- (void)dealMoreCards:(NSUInteger)numCards {
+- (void)removeMatchedCardsFromGame {
+  auto matched = [NSMutableArray array];
+  for (Card* card in self.cards) {
+    if (card.isMatched) {
+      [matched addObject:card];
+    }
+  }
+  [self.cards removeObjectsInArray:matched];
+}
+
+- (NSArray <Card *> *)dealMoreCards:(NSUInteger)numCards {
+  auto newCards = [NSMutableArray array];
   for (NSInteger i=0; i < numCards; i ++) {
     auto card = [self.deck drawRandomCard];
+    [newCards addObject:card];
     [self.cards addObject:card];
   }
+  return newCards;
 }
 
 - (NSUInteger)numberOfCardsInGame {
@@ -84,6 +97,10 @@ static const auto kMismatchPenalty = 2;
 
 - (Card *)cardAtIndex:(NSUInteger)index {
   return (index < [self.cards count]) ? self.cards[index]: nil;
+}
+
+- (NSUInteger)indexOfCard:(Card *)card {
+  return [self.cards indexOfObject:card];
 }
 
 - (void)updateBeginningOfMove {

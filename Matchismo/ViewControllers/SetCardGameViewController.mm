@@ -12,21 +12,37 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SetCardGameViewController()
-// The card buttons displayed in the view.
-@property (strong, nonatomic) IBOutletCollection(UIView) NSMutableArray<SetCardView *> *cards;
-@end
-
 @implementation SetCardGameViewController
 
-@synthesize cards = _cards;
+@synthesize cardViews = _cardViews;
 @synthesize game = _game;
+@synthesize scaleMinimumNumCards = _scaleMinimumNumCards;
 @synthesize numCardsToMatch = _numCardsToMatch;
 
 - (void)viewDidLoad {
   _numCardsToMatch = 3;
+  _scaleMinimumNumCards = 4;
   [super viewDidLoad];
   [self startNewGame];
+}
+
+- (void)updateUI {
+  [super updateUI];
+  if ([self.game.lastMatchedCards count] == self.numCardsToMatch) {
+    [self removeCardsFromViewWithFadeOut: [self getCardViewsFromCardsArray:
+                                           self.game.lastMatchedCards]];
+    [self.game removeMatchedCardsFromGame];
+    return;
+  }
+}
+
+- (NSArray<CardView *> *)getCardViewsFromCardsArray:(NSArray<Card *> *)cardsArr { //todo super view?
+  auto ret = [NSMutableArray array];
+  for (Card *card in cardsArr) {
+    auto cardV = [self.cardViews objectAtIndex:[self.game indexOfCard:card]];
+    [ret  addObject:cardV];
+  }
+  return ret;
 }
 
 - (void)initializeGame {
@@ -36,12 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)initializeCardsArray {
-  if (!_cards) {
-    _cards = [NSMutableArray array];
+  if (!_cardViews) {
+    _cardViews = [NSMutableArray array];
   }
   else {
-    [self.cards makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.cards = [NSMutableArray array];
+    [self.cardViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.cardViews = [NSMutableArray array];
   }
 }
 
@@ -56,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
   cardV.numSymbols = card.setContents.numSymbols;
   cardV.symbolColor = card.setContents.color;
   cardV.fillPattern = [SetCardView stringToPattern:card.setContents.pattern];
+  cardV.isChosen = card.isChosen;
 }
 
 - (nullable Deck *)createDeck {

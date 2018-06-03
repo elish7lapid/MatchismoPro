@@ -23,10 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// Updates the display on the screen to match the current game state.
 - (void)updateUI;
 
+- (void)removeCardsFromViewWithFadeOut:(NSArray<CardView *> *)cardsToRemove;
+
 /// Creates the display of card views on a grid on the \c cardsSpace view.
 - (void)createCardsOnGrid;
-
-- (void)initializeCardsArray;
 
 - (void)initializeGame;
 
@@ -42,10 +42,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSUInteger scaleMinimumNumCards;
 
 /// A view that holds the cards.
-@property (weak, readonly, nonatomic) UIView *cardsSpace;
+@property (readonly, nonatomic) UIView *cardsSpace;
 
 /// Card views currently displayed on screen.
-@property (strong, nonatomic) NSMutableArray<CardView *> *cards;
+@property (strong, nonatomic) NSMutableArray<CardView *> *cardViews;
 
 /// A grid that orders the \c cards on the \c cardsSpace.
 @property (nonatomic) Grid *grid;

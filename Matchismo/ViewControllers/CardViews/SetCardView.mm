@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 static const auto kDefaultSymbolScaleFactor = 0.50;
 static const auto kMarginsScale = 0.10;
-static const auto kStripesMarginsScale = 0.05;
+static const NSUInteger kStripesMarginsScale = 4;
 
 + (ContentsSymbol)stringToSymbol:(NSString *)symbString {
   if ([symbString isEqualToString:@"♦︎"]) {
@@ -59,6 +59,14 @@ static const auto kStripesMarginsScale = 0.05;
 }
 
 - (void)drawContents {
+  if (self.isChosen) {
+    self.layer.borderColor = [UIColor blueColor].CGColor;
+    self.layer.borderWidth = 5.0f;
+  }
+  else {
+    self.layer.borderColor = nil;
+    self.layer.borderWidth = 0.0f;
+  }
   auto drawer = [SetCardView drawersFactory:self.symbol];
   [self drawSymbolsWithSymbolsCreator:drawer];
 }
@@ -110,7 +118,7 @@ static const auto kStripesMarginsScale = 0.05;
 }
 
 - (void)createStrippedFillingInPath:(UIBezierPath *)path {
-  for (NSInteger i=0; i < self.bounds.size.width; i += kStripesMarginsScale*self.bounds.size.width) {
+  for (NSInteger i=0; i < self.bounds.size.width; i += kStripesMarginsScale) {
     [path moveToPoint:CGPointMake(i, 0)];
     [path addLineToPoint:CGPointMake(i, self.bounds.size.height)];
   }
@@ -133,6 +141,14 @@ static const auto kStripesMarginsScale = 0.05;
     return;
   }
   _numSymbols = numSymbols;
+  [self setNeedsDisplay];
+}
+
+- (void)setIsChosen:(BOOL)isChosen {
+  if (_isChosen == isChosen) {
+    return;
+  }
+  _isChosen = isChosen;
   [self setNeedsDisplay];
 }
 
