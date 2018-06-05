@@ -4,17 +4,25 @@
 #import "CardView.h"
 
 NS_ASSUME_NONNULL_BEGIN
-// TODO:(Elisheva)Pragamas.
 @implementation CardView
 
+/// A highet scale for a font drawn in the corner of the card.
 static const auto kCornerFontStandardHeight = 180.0;
+
+/// Shrinking the corner offset - the distance between the corner and a drawing in the corner.
 static const auto kCornerOffsetShrinkingFactor = 3.0;
+
+/// The desired radius of a card's rounded corner. 
 static const auto kCornerRadius = 12.0;
 
-- (void)setup {
-  self.backgroundColor = nil;
-  self.opaque = NO;
-  self.contentMode = UIViewContentModeRedraw;
+#pragma mark -
+#pragma mark UIView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+  if (self = [super initWithFrame:frame]) {
+    [self setup];
+  }
+  return self;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -29,6 +37,14 @@ static const auto kCornerRadius = 12.0;
   [roundedRect stroke];
   
   [self drawContents];
+}
+
+#pragma mark -
+
+- (void)setup {
+  self.backgroundColor = nil;
+  self.opaque = NO;
+  self.contentMode = UIViewContentModeRedraw;
 }
 
 - (CGFloat)cornerRadius {

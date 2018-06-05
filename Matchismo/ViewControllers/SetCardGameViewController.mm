@@ -4,7 +4,6 @@
 #import "SetCardGameViewController.h"
 
 #import "CardMatchingGame.h"
-#import "Grid.h"
 #import "SetCard.h"
 #import "SetCardContents.h"
 #import "SetCardDeck.h"
@@ -14,16 +13,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation SetCardGameViewController
 
-@synthesize cardViews = _cardViews;
 @synthesize game = _game;
 @synthesize scaleMinimumNumCards = _scaleMinimumNumCards;
 @synthesize numCardsToMatch = _numCardsToMatch;
+
+#pragma mark -
+#pragma mark UIViewController
 
 - (void)viewDidLoad {
   _numCardsToMatch = 3;
   _scaleMinimumNumCards = 4;
   [super viewDidLoad];
   [self startNewGame];
+}
+
+#pragma mark -
+#pragma mark CardGameViewController
+
+- (nullable Deck *)createDeck {
+  return [[SetCardDeck alloc] init];
 }
 
 - (void)updateUI {
@@ -36,29 +44,10 @@ NS_ASSUME_NONNULL_BEGIN
   }
 }
 
-- (NSArray<CardView *> *)getCardViewsFromCardsArray:(NSArray<Card *> *)cardsArr { //todo super view?
-  auto ret = [NSMutableArray array];
-  for (Card *card in cardsArr) {
-    auto cardV = [self.cardViews objectAtIndex:[self.game indexOfCard:card]];
-    [ret  addObject:cardV];
-  }
-  return ret;
-}
-
 - (void)initializeGame {
-  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.numCardsToMatch*self.scaleMinimumNumCards
                                             usingDeck:[self createDeck]];
   self.game.numCardsToMatch = self.numCardsToMatch;
-}
-
-- (void)initializeCardsArray {
-  if (!_cardViews) {
-    _cardViews = [NSMutableArray array];
-  }
-  else {
-    [self.cardViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.cardViews = [NSMutableArray array];
-  }
 }
 
 - (nullable CardView *)initializeBasicCardViewFromCard:(SetCard *)card inRect:(CGRect)rect {
@@ -75,8 +64,15 @@ NS_ASSUME_NONNULL_BEGIN
   cardV.isChosen = card.isChosen;
 }
 
-- (nullable Deck *)createDeck {
-  return [[SetCardDeck alloc] init];
+#pragma mark -
+
+- (NSArray<CardView *> *)getCardViewsFromCardsArray:(NSArray<Card *> *)cardsArr {
+  auto ret = [NSMutableArray array];
+  for (Card *card in cardsArr) {
+    auto cardV = [self.cardViews objectAtIndex:[self.game indexOfCard:card]];
+    [ret  addObject:cardV];
+  }
+  return ret;
 }
 
 @end

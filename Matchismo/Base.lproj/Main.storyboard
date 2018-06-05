@@ -59,6 +59,11 @@
                             <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dKH-Pv-Pct">
                                 <rect key="frame" x="16" y="64" width="343" height="496"/>
                                 <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="X6I-Ue-yPZ" appends="YES" id="6WL-WK-GSe"/>
+                                    <outletCollection property="gestureRecognizers" destination="oEy-3i-ETr" appends="YES" id="Hef-bt-ekV"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="0.91301904965753422" colorSpace="custom" customColorSpace="sRGB"/>
@@ -97,6 +102,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="X6I-Ue-yPZ">
+                    <connections>
+                        <action selector="pinchToPileCards:" destination="BYZ-38-t0r" id="ZKh-Du-uh3"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="oEy-3i-ETr">
+                    <connections>
+                        <action selector="panMovePiledCards:" destination="BYZ-38-t0r" id="4Rr-jM-Mf7"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="232.80000000000001" y="-331.48425787106447"/>
         </scene>
@@ -146,6 +161,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UC5-DS-Fuv">
                                 <rect key="frame" x="16" y="64" width="343" height="499"/>
                                 <color key="backgroundColor" red="0.98039215686274506" green="0.90196078431372551" blue="0.72156862745098038" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Izv-bR-Yxn" appends="YES" id="oVW-Ec-dzR"/>
+                                    <outletCollection property="gestureRecognizers" destination="aOE-dT-tXk" appends="YES" id="uxJ-2g-ei2"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.96862745098039216" green="0.90588235294117647" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -184,6 +204,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="16S-fT-PxX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="Izv-bR-Yxn">
+                    <connections>
+                        <action selector="pinchToPileCards:" destination="ZTR-Wx-T3B" id="dtP-fP-EDT"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="aOE-dT-tXk">
+                    <connections>
+                        <action selector="panMovePiledCards:" destination="ZTR-Wx-T3B" id="USB-hN-igm"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="232.80000000000001" y="339.58020989505252"/>
         </scene>

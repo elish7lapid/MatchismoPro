@@ -66,6 +66,8 @@ static auto const kValidShapeSymbols = @[@"♦︎", @"●", @"■"];
   return nil;
 }
 
+#pragma mark -
+#pragma mark Card
 - (int)match:(NSArray<SetCard *> *)otherCards {
   self.lastMatchedCards = [NSMutableArray array];
   int score = [self matchContentOfTraits:otherCards];
@@ -78,6 +80,7 @@ static auto const kValidShapeSymbols = @[@"♦︎", @"●", @"■"];
   }
   return score;
 }
+#pragma mark -
 
 - (int)matchContentOfTraits:(NSArray<SetCard *> *)otherCards {
   NSMutableArray<NSNumber *> *lastTraits = nil;

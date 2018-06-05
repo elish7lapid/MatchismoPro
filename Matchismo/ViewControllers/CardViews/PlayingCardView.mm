@@ -6,16 +6,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface PlayingCardView()
-@property (nonatomic) CGFloat faceCardScaleFactor;
+/// A scale factor for the face drawn in the middle of a playing card.
+@property (nonatomic) CGFloat faceScaleFactor;
 @end
 
 @implementation PlayingCardView
 
-@synthesize faceCardScaleFactor = _faceCardScaleFactor;
+@synthesize faceScaleFactor = _faceScaleFactor;
 
-static const auto kDefaultFaceCardScaleFactor = 0.10;
+/// Valid ranks for a playing card.
 static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9",
                                        @"10", @"J", @"Q", @"K"];
+
+#pragma mark -
+#pragma mark CardView
 
 - (void)drawContents {
   if (!self.faceUp) {
@@ -25,6 +29,8 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   [self drawMiddleShape];
   [self drawCornerShapes];
 }
+
+#pragma mark -
 
 - (void)drawFaceDown {
   [[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
@@ -53,8 +59,8 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
 }
 
 - (void)drawFaceWithImage:(UIImage *)faceIm {
-  CGRect centeRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceCardScaleFactor,
-                                 self.bounds.size.height * self.faceCardScaleFactor);
+  CGRect centeRect = CGRectInset(self.bounds, self.bounds.size.width * self.faceScaleFactor,
+                                 self.bounds.size.height * self.faceScaleFactor);
   [faceIm drawInRect:centeRect];
 }
 
@@ -92,7 +98,7 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
     return;
   }
   _rank = rank;
-  [self setNeedsDisplay]; //TODO:(Elisheva) doesn't happen automatically?
+  [self setNeedsDisplay]; 
 }
 
 - (void)setSuit:(NSString *)suit {
@@ -111,19 +117,12 @@ static NSArray * const kValidRanks = @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"
   [self setNeedsDisplay];
 }
 
-- (void)setFaceCardScaleFactor:(CGFloat)faceCardScaleFactor {
-  if (_faceCardScaleFactor == faceCardScaleFactor) {
+- (void)setFaceScaleFactor:(CGFloat)faceCardScaleFactor {
+  if (_faceScaleFactor == faceCardScaleFactor) {
     return;
   }
-  _faceCardScaleFactor = faceCardScaleFactor;
+  _faceScaleFactor = faceCardScaleFactor;
   [self setNeedsDisplay];
-}
-
-- (CGFloat)faceCardScaleFactor {
-  if (_faceCardScaleFactor == 0) {
-    _faceCardScaleFactor = kDefaultFaceCardScaleFactor;
-  }
-  return _faceCardScaleFactor;
 }
 
 @end

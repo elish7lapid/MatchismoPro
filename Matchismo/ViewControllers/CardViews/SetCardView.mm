@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SetCardView()
+/// A scale factor for the symbol dysplaied in the middle of a set card.
 @property (nonatomic) CGFloat symbolScaleFactor;
 @end
 
@@ -17,46 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize symbolScaleFactor = _symbolScaleFactor;
 
+/// A default scale factor for the symbol dysplaied in the middle of a set card.
 static const auto kDefaultSymbolScaleFactor = 0.50;
+
+/// A scale for the margin sorrounding the shapes drawn in the middle of a set card.
 static const auto kMarginsScale = 0.10;
-static const NSUInteger kStripesMarginsScale = 4;
 
-+ (ContentsSymbol)stringToSymbol:(NSString *)symbString {
-  if ([symbString isEqualToString:@"♦︎"]) {
-    return kDiamond;
-  }
-  if ([symbString isEqualToString:@"●"]) {
-    return kOval;
-  }
-  if ([symbString isEqualToString:@"■"]) {
-    return kRectangle;
-  }
-  return kDiamond;
-}
+/// The margins between every stripe in a striped filling pattern.
+static const NSUInteger kStripesPatternScale = 4;
 
-+ (ContentsFillPattern)stringToPattern:(NSString *)pattern {
-  if ([pattern isEqualToString:@"solid"]) {
-    return kSolid;
-  }
-  if ([pattern isEqualToString:@"None"]) {
-    return kUnfilled;
-  }
-  return kStriped;
-}
-
-+ (SymbolCreator *)drawersFactory:(ContentsSymbol)symbol {
-  switch (symbol) {
-    case kDiamond:
-      return [[DiamondCreator alloc] init];
-    case kOval:
-      return [[OvalCreator alloc] init];
-    case kRectangle:
-      return [[SquareCreator alloc] init];
-    default:
-      break;
-  }
-  return nil;
-}
+#pragma mark -
+#pragma mark CardView
 
 - (void)drawContents {
   if (self.isChosen) {
@@ -70,6 +42,8 @@ static const NSUInteger kStripesMarginsScale = 4;
   auto drawer = [SetCardView drawersFactory:self.symbol];
   [self drawSymbolsWithSymbolsCreator:drawer];
 }
+
+#pragma mark -
 
 - (void)drawSymbolsWithSymbolsCreator:(SymbolCreator *)creator {
   auto mainPath = [[UIBezierPath alloc] init];
@@ -85,7 +59,8 @@ static const NSUInteger kStripesMarginsScale = 4;
   auto symbolWidth = self.bounds.size.width*kDefaultSymbolScaleFactor;
   auto symbolHeight = symbolWidth/2;
   auto x = self.bounds.size.width*(1-kDefaultSymbolScaleFactor)/2;
-  auto y = (self.bounds.size.height/2) - (symbolHeight*self.numSymbols/2) - ([self contentsMargins]*(self.numSymbols - 1)/2);
+  auto y = (self.bounds.size.height/2) - (symbolHeight*self.numSymbols/2) -
+           ([self contentsMargins]*(self.numSymbols - 1)/2);
   auto squaresArr = [NSMutableArray array];
   [squaresArr addObject:[NSValue valueWithCGRect: CGRectMake(x, y, symbolWidth, symbolHeight)]];
   for (NSInteger i = 1; i < self.numSymbols; i ++) {
@@ -118,7 +93,7 @@ static const NSUInteger kStripesMarginsScale = 4;
 }
 
 - (void)createStrippedFillingInPath:(UIBezierPath *)path {
-  for (NSInteger i=0; i < self.bounds.size.width; i += kStripesMarginsScale) {
+  for (NSInteger i=0; i < self.bounds.size.width; i += kStripesPatternScale) {
     [path moveToPoint:CGPointMake(i, 0)];
     [path addLineToPoint:CGPointMake(i, self.bounds.size.height)];
   }
@@ -182,6 +157,44 @@ static const NSUInteger kStripesMarginsScale = 4;
   }
   return _symbolScaleFactor;
 }
+
++ (ContentsSymbol)stringToSymbol:(NSString *)symbString {
+  if ([symbString isEqualToString:@"♦︎"]) {
+    return kDiamond;
+  }
+  if ([symbString isEqualToString:@"●"]) {
+    return kOval;
+  }
+  if ([symbString isEqualToString:@"■"]) {
+    return kRectangle;
+  }
+  return kDiamond;
+}
+
++ (ContentsFillPattern)stringToPattern:(NSString *)pattern {
+  if ([pattern isEqualToString:@"solid"]) {
+    return kSolid;
+  }
+  if ([pattern isEqualToString:@"None"]) {
+    return kUnfilled;
+  }
+  return kStriped;
+}
+
++ (SymbolCreator *)drawersFactory:(ContentsSymbol)symbol {
+  switch (symbol) {
+    case kDiamond:
+      return [[DiamondCreator alloc] init];
+    case kOval:
+      return [[OvalCreator alloc] init];
+    case kRectangle:
+      return [[SquareCreator alloc] init];
+    default:
+      break;
+  }
+  return nil;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

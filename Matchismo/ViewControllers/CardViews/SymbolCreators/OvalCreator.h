@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Creates an oval shape to be drawed on a UIBezierPath.
 @interface OvalCreator : SymbolCreator
 
 @end

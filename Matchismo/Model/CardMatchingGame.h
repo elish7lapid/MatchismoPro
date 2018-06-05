@@ -29,14 +29,19 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns the card at index \c index.
 - (Card *)cardAtIndex:(NSUInteger)index;
 
+/// Returns the index of \c card.
 - (NSUInteger)indexOfCard:(Card *)card;
 
+/// Adds \c numCards more cards to the game.
 - (NSArray <Card *> *)dealMoreCards:(NSUInteger)numCards;
 
+/// Removes the cards that wer'e found matching from the game.
 - (void)removeMatchedCardsFromGame;
 
+/// If \c YES, there are no more cards that can be added to the game.
 - (BOOL)noMoreCardsToDeal;
 
+/// Returns the number of cards currently in game.
 - (NSUInteger)numberOfCardsInGame;
 
 /// The current (total) game score.
@@ -51,11 +56,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// The list of cards that were matched successfully by the user in the last choice.
 @property (readonly, nonatomic) NSMutableArray<Card *> *lastMatchedCards;
 
+/// The last card that was chosen.
 @property (readonly, nonatomic) Card *lastChosenCard;
 
 /// If \c YES, the user just finished choosing \c numCardsToMatch from the board.
 /// otherwise the user is in the middle of a turn and haven't finished choosing.
 @property (nonatomic) BOOL turnEnded;
+
+/// The card being used in the current game.
+@property (readonly, nonatomic) NSMutableArray<Card *> *cards;
 
 @end
 

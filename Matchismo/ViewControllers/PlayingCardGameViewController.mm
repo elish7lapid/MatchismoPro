@@ -4,10 +4,9 @@
 #import "PlayingCardGameViewController.h"
 
 #import "CardMatchingGame.h"
+#import "PlayingCard.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCardView.h"
-#import "Grid.h"
-#import "PlayingCard.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @synthesize scaleMinimumNumCards = _scaleMinimumNumCards;
 @synthesize numCardsToMatch = _numCardsToMatch;
 
+#pragma mark -
+#pragma mark UIViewController
+
 - (void)viewDidLoad {
   _numCardsToMatch = 2;
   _scaleMinimumNumCards = 6;
@@ -24,8 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
   [self startNewGame];
 }
 
+#pragma mark -
+#pragma mark CardGameViewController
+
+- (nullable Deck *)createDeck {
+  return [[PlayingCardDeck alloc] init];
+}
+
 - (void)initializeGame {
-  _game = [[CardMatchingGame alloc] initWithCardCount:self.grid.rowCount*self.grid.columnCount
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.numCardsToMatch*self.scaleMinimumNumCards
                                             usingDeck:[self createDeck]];
   self.game.numCardsToMatch = self.numCardsToMatch;
 }
@@ -44,14 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
       [self handleUnsuccessfullTurnFlipofCardView:cardV];
       return;
     }
-    }
+  }
   [super updateUI];
-}
-
-- (void)handleUnsuccessfullTurnFlipofCardView:(PlayingCardView *)cardV {
-  [UIView animateWithDuration:0.8 animations:^{[self setAnimateCardViewFlip:cardV toFaceUp:YES];}
-                   completion:^(BOOL finished){[self performSelector:@selector(updateUI)
-                                                          withObject:nil afterDelay:0.5];}];
 }
 
 - (void)updateCardViewContents:(PlayingCardView *)cardV fromCard:(PlayingCard *)card {
@@ -63,6 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
   [self flipCardView:cardV ToFaceUp:card.isChosen];
 }
 
+#pragma mark -
+
+- (void)handleUnsuccessfullTurnFlipofCardView:(PlayingCardView *)cardV {
+  [UIView animateWithDuration:0.8 animations:^{[self setAnimateCardViewFlip:cardV toFaceUp:YES];}
+                   completion:^(BOOL finished){[self performSelector:@selector(updateUI)
+                                                          withObject:nil afterDelay:0.5];}];
+}
+
 - (void)flipCardView:(PlayingCardView *)cardV ToFaceUp:(BOOL)up {
   [UIView animateWithDuration:0.8 animations:^{[self setAnimateCardViewFlip:cardV toFaceUp:up];}];
 }
@@ -70,10 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setAnimateCardViewFlip:(PlayingCardView *)cardV toFaceUp:(BOOL)faceDirection {
   cardV.faceUp = faceDirection;
   [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:cardV cache:YES];
-}
-
-- (nullable Deck *)createDeck {
-  return [[PlayingCardDeck alloc] init];
 }
 
 @end

@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readwrite, nonatomic) NSInteger lastTurnScore;
 
 /// The card being used in the current game.
-@property (strong, nonatomic) NSMutableArray<Card *> *cards;
+@property (readwrite, nonatomic) NSMutableArray<Card *> *cards;
 
 /// The list of cards that are currently chosen by the user.
 @property (readwrite, nonatomic) NSMutableArray<Card *> *currentChosenCards;

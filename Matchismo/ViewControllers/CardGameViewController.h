@@ -23,11 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Updates the display on the screen to match the current game state.
 - (void)updateUI;
 
+/// Removing \c cardsToRemove from game with a fade out animation.
 - (void)removeCardsFromViewWithFadeOut:(NSArray<CardView *> *)cardsToRemove;
 
-/// Creates the display of card views on a grid on the \c cardsSpace view.
-- (void)createCardsOnGrid;
-
+/// An abstrct method which is only implemented by subclasses of \c CardGameViewController.
+/// Initializes the game.
 - (void)initializeGame;
 
 /// An abstrct method which is only implemented by subclasses of \c CardGameViewController.
@@ -37,20 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Object handling the logic of the game that is currently played in the \c CardGameViewController.
 @property (strong, readonly, nonatomic, nullable) CardMatchingGame *game;
 
+/// The number of cards that the user can try matching in each turn.
 @property (nonatomic) NSUInteger numCardsToMatch;
 
+/// The minimal number of cards that will be displayed in the beggining of the game is
+/// \c scaleMinimumNumCards * numCardsToMatch.
 @property (nonatomic) NSUInteger scaleMinimumNumCards;
-
-/// A view that holds the cards.
-@property (readonly, nonatomic) UIView *cardsSpace;
 
 /// Card views currently displayed on screen.
 @property (strong, nonatomic) NSMutableArray<CardView *> *cardViews;
 
-/// A grid that orders the \c cards on the \c cardsSpace.
-@property (nonatomic) Grid *grid;
-
-- (nullable Deck *)createDeck;
-
 @end
+
 NS_ASSUME_NONNULL_END

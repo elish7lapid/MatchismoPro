@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Creates a square shape to be drawed on a UIBezierPath.
 @interface SquareCreator : SymbolCreator
 
 @end

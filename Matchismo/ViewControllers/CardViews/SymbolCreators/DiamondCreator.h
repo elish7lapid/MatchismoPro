@@ -5,6 +5,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Creates a diamond shape to be drawed on a UIBezierPath.
 @interface DiamondCreator : SymbolCreator
 
 @end

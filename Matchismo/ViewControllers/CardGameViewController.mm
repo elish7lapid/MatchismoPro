@@ -1,19 +1,40 @@
 // Copyright (c) 2018 Lightricks. All rights reserved.
 // Created by Elisheva Lapid.
 
+#import "Grid.h"
+
 #import "CardGameViewController.h"
 
 #import "Card.h"
 #import "CardMatchingGame.h"
 #import "CardView.h"
-#import "Grid.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface CardGameViewController()
+
+/// Label representing the current score in the game.
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+
+/// A UIView holding the \c CardViews.
 @property (readwrite, nonatomic) IBOutlet UIView *cardsSpace;
+
+/// A label that is presented when there are no more cards to deal.
 @property (weak, nonatomic) IBOutlet UILabel *outOfCardsLabel;
+
+/// If \c YES, the cards are piled and can be moved by the user. Else the regular game view is on.
+@property (nonatomic) BOOL pileModeOn;
+
+/// Array holding attachment behaviour for each card that causes the cards to move when they are in
+/// \c pileModeOn.
+@property (nonatomic, nullable) NSMutableArray <UIAttachmentBehavior *> *movePile;
+
+/// An animator allowing adding animated behaviours to the view.
+@property (nonatomic) UIDynamicAnimator *animator;
+
+/// A grid that orders the \c cards on the \c cardsSpace.
+@property (nonatomic) Grid *grid;
+
 @end
 
 @implementation CardGameViewController
@@ -21,21 +42,27 @@ NS_ASSUME_NONNULL_BEGIN
 static const auto kCardsSizeRatio = 0.6;
 static const auto kCardsScaleFactor = 0.9;
 
+#pragma mark -
+#pragma mark UIViewController
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initGrid];
+  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.cardsSpace];
 }
+
+- (void)viewDidLayoutSubviews {
+  [super viewDidLayoutSubviews];
+  [self relocateCardsOnGrid];
+}
+
+#pragma mark -
 
 - (void)initGrid {
   _grid = [[Grid alloc] init];
   self.grid.cellAspectRatio = kCardsSizeRatio;
   self.grid.size = _cardsSpace.bounds.size;
   self.grid.minimumNumberOfCells = self.numCardsToMatch*self.scaleMinimumNumCards;
-}
-
-- (void)viewDidLayoutSubviews {
-  [super viewDidLayoutSubviews];
-  [self relocateCardsOnGrid];
 }
 
 - (IBAction)touchRestartButton:(UIButton *)sender {
@@ -66,7 +93,7 @@ static const auto kCardsScaleFactor = 0.9;
   self.grid.minimumNumberOfCells = self.numCardsToMatch * self.scaleMinimumNumCards;
   [self initializeCardsArray];
   [self initializeGame];
-  [self createCardsOnGrid];
+  [self animateCreateCardViewsFromCards:self.game.cards];
 }
 
 - (void)initializeCardsArray {
@@ -84,32 +111,17 @@ static const auto kCardsScaleFactor = 0.9;
   return;
 }
 
-- (void)createCardsOnGrid {
-  for (NSUInteger i = 0; i < self.grid.rowCount; i++) {
-    for (NSUInteger j = 0; j < self.grid.columnCount; j++) {
-      [self createCardViewInRow:i col:j];
-    }
-  }
-}
-
-- (void)createCardViewInRow:(NSUInteger)row col:(NSUInteger)col {
-  auto flatIdx = (self.grid.columnCount*row) + col;
-  if ((flatIdx + 1) > (self.grid.minimumNumberOfCells)) {
-    return;
-  }
-  auto card = [self.game cardAtIndex:flatIdx];
-  auto cardV = [self createCardViewInRect:[self.grid frameOfCellAtRow:row inColumn:col]
-                                  forCard:card];
-  [self addCardViewToGame:cardV];
-}
-
 - (IBAction)tapDealButton:(id)sender {
   if ([self.game noMoreCardsToDeal]) {
     self.outOfCardsLabel.text = @"Out of cards!";
     return;
   }
   auto newCards = [self.game dealMoreCards:self.numCardsToMatch];
-  for (Card* card in newCards) {
+  [self animateCreateCardViewsFromCards:newCards];
+}
+
+- (void)animateCreateCardViewsFromCards:(NSArray<Card *> *)cards {
+  for (Card* card in cards) {
     auto cardV = [self createCardViewInRect:CGRectMake(0, 0, 10, 20) forCard:card];
     [self addCardViewToGame:cardV];
   }
@@ -117,10 +129,7 @@ static const auto kCardsScaleFactor = 0.9;
 }
 
 - (CardView *)createCardViewInRect:(CGRect)rect forCard:(Card *)card {
-  auto cardV = [self initializeBasicCardViewFromCard:card
-                                              inRect:[self createScaledRectInFrame:rect]];
-  [cardV setup];
-  return cardV;
+  return [self initializeBasicCardViewFromCard:card inRect:[self createScaledRectInFrame:rect]];
 }
 
 // Abstract method.
@@ -140,6 +149,10 @@ static const auto kCardsScaleFactor = 0.9;
 }
 
 - (void)tapCard:(UITapGestureRecognizer *)recognizer {
+  if (self.pileModeOn) {
+    [self pileModeTapping];
+    return;
+  }
   auto pressed = (CardView *)recognizer.view;
   auto chosenButtonIndex = [self.cardViews indexOfObject:pressed];
   [self.game chooseCardAtIndex:chosenButtonIndex];
@@ -207,6 +220,57 @@ static const auto kCardsScaleFactor = 0.9;
   [self.cardViews removeObjectsInArray:cardsToRemove];
   [cardsToRemove makeObjectsPerformSelector:@selector(removeFromSuperview)];
 }
+
+- (IBAction)pinchToPileCards:(UIPinchGestureRecognizer *)sender {
+ if (sender.state == UIGestureRecognizerStateEnded) {
+   self.pileModeOn = YES;
+   auto gridRec = [self.grid frameOfCellAtRow:0 inColumn:0];
+   auto rect = CGRectMake(self.cardsSpace.center.x - gridRec.size.width/2,
+                          self.cardsSpace.center.y - gridRec.size.height/2, gridRec.size.width,
+                          gridRec.size.height);
+   rect = [self createScaledRectInFrame:rect];
+   for (CardView *cardV in self.cardViews) {
+     [self animateReadjustFrame:rect forCardView:cardV];
+   }
+  }
+}
+
+- (IBAction)panMovePiledCards:(UIPanGestureRecognizer *)sender {
+  auto loc = [sender locationInView:self.cardsSpace];
+  if (sender.state == UIGestureRecognizerStateBegan) {
+    [self attachCardViewsPileToPoint:loc];
+  } else if (sender.state == UIGestureRecognizerStateChanged) {
+    for (UIAttachmentBehavior *behave in self.movePile) {
+      behave.anchorPoint = loc;
+    }
+  } else if (sender.state == UIGestureRecognizerStateEnded) {
+    for (UIAttachmentBehavior *behave in self.movePile) {
+      [self.animator removeBehavior:behave];
+    }
+  }
+}
+
+- (void)attachCardViewsPileToPoint:(CGPoint)point {
+  if (self.pileModeOn) {
+    self.movePile = [NSMutableArray array];
+    for (CardView *cardV in self.cardViews) {
+      [self attachCardView:cardV toAnchorPoint:point];
+    }
+  }
+}
+
+- (void)attachCardView:(CardView *)cardV toAnchorPoint:(CGPoint)point {
+  auto behave = [[UIAttachmentBehavior alloc] initWithItem:cardV attachedToAnchor:point];
+  [self.movePile addObject:behave];
+  [self.animator addBehavior:behave];
+}
+
+- (void)pileModeTapping {
+  self.pileModeOn = NO;
+  self.movePile = nil;
+  [self relocateCardsOnGrid];
+}
+
 
 @end
 

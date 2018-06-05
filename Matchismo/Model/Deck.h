@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Returns a random card chosen from the deck. Returns \c nil if the deck is out of cards.
 - (nullable Card *)drawRandomCard;
 
+/// If \c YES, than there are no more cards in the deck.
 - (BOOL)isDeckEmpty;
 
 @end

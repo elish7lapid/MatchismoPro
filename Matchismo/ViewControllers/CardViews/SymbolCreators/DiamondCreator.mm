@@ -7,6 +7,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation DiamondCreator
 
+#pragma mark -
+#pragma mark SymbolCreator
+
 - (nullable UIBezierPath*)createInPathWithRect:(CGRect)rect {
   auto path = [[UIBezierPath alloc] init];
   [path moveToPoint:CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y)];
@@ -18,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
   [path closePath];
   return path;
 }
+
+#pragma mark -
 
 @end
 

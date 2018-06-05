@@ -14,17 +14,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @synthesize suit = _suit;
 
-+ (NSArray *)validSuits {
-  return @[@"♥︎", @"♦︎", @"♠︎", @"♣︎" ];
+#pragma mark -
+#pragma mark Card
+
+- (NSInteger)matchToSingleOtherCard:(PlayingCard *)otherCard {
+  NSInteger score = 0;
+  
+  if (otherCard.rank == self.rank) {
+    score = 4;
+    
+  } else if ([otherCard.suit isEqualToString:self.suit]){
+    score = 1;
+  }
+  
+  if (score > 0) {
+    [self.lastMatchedCards addObject:otherCard];
+  }
+  return score;
 }
 
-+ (NSArray *)rankStrings {
-  return @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"J", @"Q", @"K"];
-}
-
-+ (NSUInteger)maxRank {
-  return [[self rankStrings] count] - 1;
-}
+#pragma mark -
 
 - (void)setSuit:(NSString *)suit {
   if (![[PlayingCard validSuits] containsObject:suit]) {
@@ -50,20 +59,16 @@ NS_ASSUME_NONNULL_BEGIN
   _rank = rank;
 }
 
-- (NSInteger)matchToSingleOtherCard:(PlayingCard *)otherCard {
-  NSInteger score = 0;
-  
-  if (otherCard.rank == self.rank) {
-    score = 4;
-    
-  } else if ([otherCard.suit isEqualToString:self.suit]){
-    score = 1;
-  }
-  
-  if (score > 0) {
-    [self.lastMatchedCards addObject:otherCard];
-  }
-  return score;
++ (NSArray *)validSuits {
+  return @[@"♥︎", @"♦︎", @"♠︎", @"♣︎" ];
+}
+
++ (NSArray *)rankStrings {
+  return @[@"?",@"A",@"2",@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"J", @"Q", @"K"];
+}
+
++ (NSUInteger)maxRank {
+  return [[self rankStrings] count] - 1;
 }
 
 @end
